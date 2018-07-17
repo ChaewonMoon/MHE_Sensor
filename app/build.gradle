@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+
+    defaultConfig {
+        applicationId "no.nordicsemi.android.nrfthingy"
+        minSdkVersion 18
+        targetSdkVersion 27
+        versionCode 32
+        versionName "1.3.4"
+        vectorDrawables.useSupportLibrary = true
+        //Enabling multidex support.
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    dexOptions {
+        jumboMode true
+        maxProcessCount 2
+        javaMaxHeapSize "2g"
+    }
+
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+
+
+dependencies {
+    compile project(':thingylib')
+    compile 'no.nordicsemi.android.support.v18:scanner:1.0.0'
+    implementation 'com.android.support:support-v4:27.0.0'
+    compile 'com.android.support:appcompat-v7:27.0.0'
+    compile 'com.android.support:design:27.0.0'
+    compile 'com.android.support:cardview-v7:27.0.0'
+    compile 'com.android.support:recyclerview-v7:27.0.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:multidex:1.0.2'
+    compile 'com.getkeepsafe.taptargetview:taptargetview:1.9.1'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
+    compile 'org.rajawali3d:rajawali:1.0.325@aar'
+    compile 'com.squareup.okhttp3:okhttp:3.3.1'
+    testCompile 'junit:junit:4.12'
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
+}

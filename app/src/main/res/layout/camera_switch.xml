@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_about"
+        android:title="@string/action_about"
+        android:icon="@drawable/ic_info_grey"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_pedometer_notification"
+        android:title="@string/title_pedometer"
+        android:checkable="true"
+        android:orderInCategory="101"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_tap_notification"
+        android:title="@string/title_tap"
+        android:checkable="true"
+        android:orderInCategory="101"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_heading_notification"
+        android:title="@string/title_heading"
+        android:checkable="true"
+        android:orderInCategory="102"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_orientation_notification"
+        android:title="@string/title_orientation"
+        android:checkable="true"
+        android:orderInCategory="103"
+        app:showAsAction="never" />
+</menu>
