@@ -259,7 +259,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
                 mResultVectorView.setSelection(mResultVectorAdapter.getCount() - 1);
 
 
-                if(!isRun)
+                if(!isRun && mResultLog.size() == 1)
                     mCheckReceive.execute();
             }
             else {
@@ -477,7 +477,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
     public void saveData() {
         File tempDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/MHE_RESULT");
         Log.d("PATH", Environment.getExternalStorageDirectory().getAbsolutePath());
-        Log.e("CW", "Method called on the saveData", new Exception("STACK TRACE"));
+//        Log.e("CW", "Method called on the saveData", new Exception("STACK TRACE"));
 
         if (!tempDir.exists())
             tempDir.mkdirs();
