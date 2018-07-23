@@ -110,14 +110,14 @@
                                 android:inputType="textPersonName"
                                 android:text="@string/result_title" />
 
-                            <!--웹으로 데이터를 전송하는 버튼이다-->
+                            <!--웹으로 데이터를 전송하는 버튼이다
                             <ImageButton
                                 android:id="@+id/uploadButton"
                                 android:layout_width="3dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:onClick="uploadBT_clicked"
-                                card_view:srcCompat="@android:drawable/arrow_down_float" />
+                                android:onClick="uploadBT_clicked"+
+                                card_view:srcCompat="@android:drawable/arrow_down_float" / -->
 
 
                             <ImageButton
