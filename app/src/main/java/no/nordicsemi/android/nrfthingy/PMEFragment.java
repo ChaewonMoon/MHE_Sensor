@@ -742,43 +742,6 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
             int size = 0;
             isRun = true;
 
-
-            Log.e("CW","uploadBT");
-            String tempC = new String();
-            ContentValues contentValues = new ContentValues();
-
-            FileReader fr;
-            BufferedReader br;
-            String sCurrentLine = new String();
-
-            List<String> saveBuffer = new ArrayList<String>();
-            File tempDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/MHE_RESULT");
-            if (!tempDir.exists())
-                tempDir.mkdirs();
-            try {
-                fr = new FileReader(tempDir +"time"+ "Result.csv");
-                br = new BufferedReader(fr);
-
-                while((sCurrentLine= br.readLine()) != null){
-                    saveBuffer.add(sCurrentLine);
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            saveBuffer.remove(0);
-
-            contentValues.put("a", saveBuffer.toString());
-
-            String url = "http://13.230.57.228:8080/create";
-
-            // AsyncTask를 통해 HttpURLConnection 수행.
-            NetworkTask networkTask = new NetworkTask(url,  contentValues);
-            networkTask.execute();
-
-
             try {
                 while(true)
                 {
@@ -789,6 +752,42 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
                         mThingySdkManager.enableResultVectorNotifications(mDevice, false);
                         saveData();
                         isRun = false;
+
+                        Log.e("CW","uploadBT");
+                        String tempC = new String();
+                        ContentValues contentValues = new ContentValues();
+
+                        FileReader fr;
+                        BufferedReader br;
+                        String sCurrentLine = new String();
+
+                        List<String> saveBuffer = new ArrayList<String>();
+                        File tempDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/MHE_RESULT");
+                        if (!tempDir.exists())
+                            tempDir.mkdirs();
+                        try {
+                            fr = new FileReader(tempDir +time+ "Result.csv");
+                            br = new BufferedReader(fr);
+
+                            while((sCurrentLine= br.readLine()) != null){
+                                saveBuffer.add(sCurrentLine);
+                            }
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        saveBuffer.remove(0);
+
+                        contentValues.put("a", saveBuffer.toString());
+
+                        String url = "http://13.230.57.228:8080/create";
+
+                        // AsyncTask를 통해 HttpURLConnection 수행.
+                        NetworkTask networkTask = new NetworkTask(url,  contentValues);
+                        networkTask.execute();
+
                         break;
                     }
                 }
