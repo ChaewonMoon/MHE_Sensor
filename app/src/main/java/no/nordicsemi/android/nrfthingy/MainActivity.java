@@ -229,14 +229,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView mBatteryLevel;
     private ImageView mBatteryLevelImg;
     private NFCTagFoundDialogFragment mNfcTagFoundDialogFragment;
+    private PMEFragment time;
+
      public MainActivity() {
      }
 
+
+     /*
+     Created by Chaewon.Moon
+      */
     //http post방식으로 서버에 값 전달
+/*
     public void uploadBT_clicked(View v) {
         Log.e("CW","uploadBT");
         String tempC = new String();
          ContentValues contentValues = new ContentValues();
+
         /*mThingySdkManager.enableResultVectorNotifications(mDevice, true);
         PMEFragment PME = PMEFragment.newInstance(mDevice);
         ArrayList<String> mLog = PME.getmResultLog();
@@ -246,16 +254,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
          for(int i=0;i<mLog.size();i++){
              tempC += mLog.get(i) + "/";
          }*/
-
+/*
         FileReader fr;
         BufferedReader br;
         String sCurrentLine = new String();
+
         List<String> saveBuffer = new ArrayList<String>();
         File tempDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/MHE_RESULT");
         if (!tempDir.exists())
             tempDir.mkdirs();
         try {
-            fr = new FileReader(tempDir +"/18-57-31_"+ "Result.csv");
+            fr = new FileReader(tempDir +"time"+ "Result.csv");
             br = new BufferedReader(fr);
 
             while((sCurrentLine= br.readLine()) != null){
@@ -279,6 +288,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NetworkTask networkTask = new NetworkTask(url,  contentValues);
         networkTask.execute();
      }
+
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
 
@@ -307,11 +317,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.e("CW", s);
         }
     }
+*/
 
-    //언제 다운로드가 되는지 알 수 없음. 밑의 코드로는 확인 불가
-    //다운로드 버튼을 눌렀을때 확실하게 다운될 수 있도록 할 것
-    //파일 정책을 다시 세울 것, 하나의 파일 or 다수의 파일
-    //시-분-초 인 파일 이름을 시-분-초-날짜-월-연 이렇게 수정해서 넣을 것, 중복가능성 있음
     public void downloadBT_clicked(View v) {
         Toast.makeText(getApplicationContext(), "DATA Down Start", Toast.LENGTH_LONG).show();
         mThingySdkManager.enableResultVectorNotifications(mDevice, true);
