@@ -2,6 +2,7 @@ package no.nordicsemi.android.nrfthingy;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -32,14 +33,18 @@ import com.github.mikephil.charting.data.LineDataSet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 
 import no.nordicsemi.android.nrfthingy.common.ScannerFragmentListener;
@@ -86,7 +91,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
     private ArrayList<String> mFeatureLog = new ArrayList<String>();
     private static ArrayList<String> mResultLog = new ArrayList<String>();
 
-    private String time;
+    public static String time;
 
     public boolean mIsFragmentAttached = false;
     public CheckReceive mCheckReceive = new CheckReceive();
@@ -245,7 +250,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
 
                 time = new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis()));
                 mResultVectorAdapter.addResult(len + "  " + R_0 + "  " + R_1 + "  " + R_3 + "  " + R_4 + "  " + R_5 + "  " + R_6 + "  " + R_7
-                        + "  " + R_8 + "  " + R_9 + "  " + R_10 + "  " + R_11 + "  " + R_12 + "  " + R_13 + "  " + R_14 + "  " + R_15
+                                + "  " + R_8 + "  " + R_9 + "  " + R_10 + "  " + R_11 + "  " + R_12 + "  " + R_13 + "  " + R_14 + "  " + R_15
                         , "time : " + time);
                 mResultVectorAdapter.notifyDataSetChanged();
 
@@ -736,6 +741,44 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
         protected Integer doInBackground(Integer... integers) {
             int size = 0;
             isRun = true;
+
+
+            Log.e("CW","uploadBT");
+            String tempC = new String();
+            ContentValues contentValues = new ContentValues();
+
+            FileReader fr;
+            BufferedReader br;
+            String sCurrentLine = new String();
+
+            List<String> saveBuffer = new ArrayList<String>();
+            File tempDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/MHE_RESULT");
+            if (!tempDir.exists())
+                tempDir.mkdirs();
+            try {
+                fr = new FileReader(tempDir +"time"+ "Result.csv");
+                br = new BufferedReader(fr);
+
+                while((sCurrentLine= br.readLine()) != null){
+                    saveBuffer.add(sCurrentLine);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            saveBuffer.remove(0);
+
+            contentValues.put("a", saveBuffer.toString());
+
+            String url = "http://13.230.57.228:8080/create";
+
+            // AsyncTask를 통해 HttpURLConnection 수행.
+            NetworkTask networkTask = new NetworkTask(url,  contentValues);
+            networkTask.execute();
+
+
             try {
                 while(true)
                 {
@@ -774,5 +817,32 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
             return null;
         }
     }
-}
 
+    public class NetworkTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public NetworkTask(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            Log.e("CW","doInbackground" + values);
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.e("CW", s);
+        }
+    }
+}
