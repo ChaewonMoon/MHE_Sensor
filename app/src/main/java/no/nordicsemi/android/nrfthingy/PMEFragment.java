@@ -338,7 +338,6 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mDevice = getArguments().getParcelable(Utils.CURRENT_DEVICE);
-
         }
         client = new OkHttpClient();
         JSON = MediaType.parse("application/json; charset=utf-8");

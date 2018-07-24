@@ -159,6 +159,7 @@ public class ThingyListenerHelper {
                     }
                     break;
                 case ThingyUtils.CLASSIFICATION_NOTIFICATION:
+                    Log.d("TLH", "classification notified");
                     final String classification = intent.getExtras().getString(ThingyUtils.EXTRA_DATA);
                     if (globalListener != null) {
                         globalListener.onKnowledgePackValueChangedEvent(device, classification);
@@ -179,7 +180,7 @@ public class ThingyListenerHelper {
                         thingyListener.onFeatureVectorValueChangedEvent(device, vectorLength, feature_X, feature_Y, feature_Z);
                     }
                 case ThingyUtils.RESULTVECTOR_NOTIFICATION:
-                    Log.d("PME_result_history: ", "RESULTVECTOR_NOTIFICATION start");
+                    //Log.d("PME_result_history: ", "RESULTVECTOR_NOTIFICATION start");
                     final String vectorLength_R = intent.getExtras().getString(ThingyUtils.EXTRA_DATA_RVECTORLENGTH);
                     final String feature_0_R = intent.getExtras().getString(ThingyUtils.EXTRA_DATA_RESULTVECTOR_0);
                     final String feature_1_R = intent.getExtras().getString(ThingyUtils.EXTRA_DATA_RESULTVECTOR_1);
@@ -197,9 +198,11 @@ public class ThingyListenerHelper {
                     final String feature_13_R = intent.getExtras().getString(ThingyUtils.EXTRA_DATA_RESULTVECTOR_13);
                     final String feature_14_R = intent.getExtras().getString(ThingyUtils.EXTRA_DATA_RESULTVECTOR_14);
                     final String feature_15_R = intent.getExtras().getString(ThingyUtils.EXTRA_DATA_RESULTVECTOR_15);
+                    /*
                     Log.d("PME_result_history: ", vectorLength_R + " " + feature_0_R + " " + feature_1_R + " " + feature_2_R + " " + feature_3_R
                             + " " + feature_4_R + " " + feature_5_R + " " + feature_6_R + " " + feature_7_R + " " + feature_8_R + " " + feature_9_R + " " + feature_10_R
                             + " " + feature_11_R + " " + feature_12_R + " " + feature_13_R + " " + feature_14_R + " " + feature_15_R);
+                            */
                     if (globalListener != null) {
                         globalListener.onResultVectorValueChangedEvent(device, vectorLength_R, feature_0_R, feature_1_R, feature_2_R
                                 , feature_3_R, feature_4_R, feature_5_R, feature_6_R, feature_7_R, feature_8_R, feature_9_R, feature_10_R, feature_11_R

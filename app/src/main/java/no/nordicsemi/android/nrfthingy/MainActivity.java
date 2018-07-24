@@ -229,7 +229,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView mBatteryLevel;
     private ImageView mBatteryLevelImg;
     private NFCTagFoundDialogFragment mNfcTagFoundDialogFragment;
-    private PMEFragment time;
 
      public MainActivity() {
      }
@@ -325,35 +324,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         PMEFragment PME = PMEFragment.newInstance(mDevice);
         PME.mCheckConnection.execute();
-
-
-/*        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-
-        ThingyConnection mThingyConnection = mThingySdkManager.getThingyConnection(mDevice);
-        mThingyConnection.download_on();
-                    mThingySdkManager.enableResultVectorNotifications(mDevice, true);
-        mDatabaseHelper.updateNotificationsState(mDevice.getAddress(), true, DatabaseContract.ThingyDbColumns.COLUMN_NOTIFICATION_RESULTVECTOR);
-                    Thread.sleep(1000);
-                    mThingySdkManager.enableResultVectorNotifications(mDevice, false);
-                    Thread.sleep(1000);
-                    mDatabaseHelper.updateNotificationsState(mDevice.getAddress(), false, DatabaseContract.ThingyDbColumns.COLUMN_NOTIFICATION_RESULTVECTOR);
-        mThingyConnection.download_off();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-        //PMEFragment PME = PMEFragment.newInstance(mDevice);
-        PME.saveData();
-
-
-        mThingySdkManager.enableResultVectorNotifications(mDevice, false);
-        ThingyConnection mThingyConnection = mThingySdkManager.getThingyConnection(mDevice);
-        mThingyConnection.download_off();
-*/
         Toast.makeText(getApplicationContext(), "DATA Down Finish", Toast.LENGTH_LONG).show();
     }
 
@@ -1032,6 +1002,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     PMEFragment pmeFragment = PMEFragment.newInstance(mDevice);
                     getSupportFragmentManager().beginTransaction().add(R.id.container, pmeFragment, mFragmentTag).commit();
+                }
+                break;
+            case R.id.navigation_result: //MHE// 원래 없던건데 센서 리스트들 표시를 위해 사용
+                if (fragmentManager.findFragmentByTag(Utils.PME_RESULT) == null) {
+                    if (mThingySdkManager.isConnected(mDevice)) {
+                        mThingySdkManager.enableEnvironmentNotifications(mDevice, false);
+                        mThingySdkManager.enableMotionNotifications(mDevice, false);
+                        mThingySdkManager.enableUiNotifications(mDevice, false);
+                        mThingySdkManager.enableSoundNotifications(mDevice, false);
+                        mThingySdkManager.enablePMENotifications(mDevice, false);
+                    }
+
+                    final String fragmentTag = mFragmentTag;
+                    clearFragments(fragmentTag);
+                    mFragmentTag = Utils.PME_RESULT;
+
+                    ResultFragment resultFragment = ResultFragment.newInstance(mConnectedBleDeviceList);
+                    getSupportFragmentManager().beginTransaction().add(R.id.container, resultFragment, mFragmentTag).commit();
                 }
                 break;
             case R.id.navigation_motion: //MHE// 사용하지 않는 fragment입니다.

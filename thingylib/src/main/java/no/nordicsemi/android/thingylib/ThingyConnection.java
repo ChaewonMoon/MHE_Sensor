@@ -62,6 +62,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.security.Key;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -409,6 +410,7 @@ public class ThingyConnection extends BluetoothGattCallback {
             ThingyUtils.removeOldDataForGraphs(mTemperatureData);
 
         } else if (characteristic.equals(mClassificationCharacteristic)) {
+            Log.d(TAG, "classification_broadcast");
             //MHE//pmefragment에서 값받을때 센서에서는 4개를보내는데 현재는 값이 3번째것만와서 나중에 수정하시면 될 것 같습니다.
             final int mClassificationInt1 = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 0);
             final int mClassificationInt2 = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 1);
@@ -436,7 +438,7 @@ public class ThingyConnection extends BluetoothGattCallback {
             LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
 
         }else if (characteristic.equals(mResultVectorCharacteristic)) {
-            Log.d("PME_RESULT_history: ", "character = result");
+            //Log.d("PME_RESULT_history: ", "character = result");
             final int vectorLength = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
             final int mResultVector0 = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 1);
             final int mResultVector1 = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 2);
@@ -454,9 +456,10 @@ public class ThingyConnection extends BluetoothGattCallback {
             final int mResultVector13 = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 14);
             final int mResultVector14 = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 15);
 //            final int mResultVector15 = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 16);
+            /*
             Log.d("PME_RESULT_history: ",  mResultVector0 + " " + mResultVector1 + " " + mResultVector2 + " " + mResultVector3 + " " + mResultVector4
                     + " " + mResultVector5 + " " + mResultVector6 + " " + mResultVector7 + " " + mResultVector8 + " " + mResultVector9 + " " + mResultVector10
-                    + " " + mResultVector11 + " " + mResultVector12 + " " + mResultVector13 + " " + mResultVector14 + " " + mResultVector14);
+                    + " " + mResultVector11 + " " + mResultVector12 + " " + mResultVector13 + " " + mResultVector14 + " " + mResultVector14);*/
             final Intent intent = new Intent(ThingyUtils.RESULTVECTOR_NOTIFICATION);
             intent.putExtra(ThingyUtils.EXTRA_DEVICE, mBluetoothDevice);
             intent.putExtra(ThingyUtils.EXTRA_DATA_VECTORLENGTH, String.valueOf(vectorLength));

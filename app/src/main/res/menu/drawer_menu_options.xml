@@ -65,6 +65,11 @@
             android:checked="false"
             android:icon="@drawable/ic_pme"
             android:title="@string/pme_title" />
+        <item
+            android:id="@+id/navigation_result"
+            android:checked="false"
+            android:icon="@drawable/ic_pme"
+            android:title="@string/pme_result_title" />
         <!--<item
             android:id="@+id/navigation_cloud"
             android:checked="false"

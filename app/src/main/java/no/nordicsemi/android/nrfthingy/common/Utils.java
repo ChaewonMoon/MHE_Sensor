@@ -99,6 +99,7 @@ public class Utils {
     public static final String EXTRA_DATA_URL = "EXTRA_DATA_URL";
 
     public static final String CURRENT_DEVICE = "CURRENT_DEVICE";
+    public static final String CURRENT_DEVICE_LIST = "CURRENT_DEVICE_LIST";
     public static final String SETTINGS_MODE = "SETTINGS_MODE";
 
     public static final String INITIAL_CONFIG_FROM_ACTIVITY = "INITIAL_CONFIG_FROM_ACTIVITY";
@@ -117,6 +118,7 @@ public class Utils {
 
     public static final String ENVIRONMENT_FRAGMENT = "ENVIRONMENT_FRAGMENT";
     public static final String PME_FRAGMENT = "PME_FRAGMENT";
+    public static final String PME_RESULT = "PME_RESULT";
     public static final String RECEIVE_FRAGMENT = "RECEIVE_FRAGMENT";
     public static final String MOTION_FRAGMENT = "MOTION_FRAGMENT";
     public static final String UI_FRAGMENT = "UI_FRAGMENT";
