@@ -840,7 +840,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.e("CW", s);
+            Log.e("CW", "onPostExecute");
         }
     }
 }
