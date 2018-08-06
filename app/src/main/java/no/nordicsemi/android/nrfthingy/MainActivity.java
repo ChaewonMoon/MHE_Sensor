@@ -320,6 +320,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void downloadBT_clicked(View v) {
         Toast.makeText(getApplicationContext(), "DATA Down Start", Toast.LENGTH_LONG).show();
+
         mThingySdkManager.enableResultVectorNotifications(mDevice, true);
 
         PMEFragment PME = PMEFragment.newInstance(mDevice);
@@ -1071,6 +1072,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     SoundFragment soundFragment = SoundFragment.newInstance(mDevice);
                     getSupportFragmentManager().beginTransaction().add(R.id.container, soundFragment, mFragmentTag).commit();
                 }
+                break;
+            case R.id.navigation_reset:
+                Log.d("Device time", " : " + mThingySdkManager.getDeviceTime(mDevice));
                 break;
             /*case R.id.navigation_cloud: //MHE// 사용하지 않는 fragment 입니다.
                 if (fragmentManager.findFragmentByTag(Utils.CLOUD_FRAGMENT) == null) {

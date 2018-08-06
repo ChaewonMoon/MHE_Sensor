@@ -493,7 +493,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
             bw = new BufferedWriter(fw);
             bw.write("MAC, ID, Activity, Vector0, Vector1, Vector2, Vector3, Vector4, Vector5, Vector6, Vector7, Vector8, Vector10, Vector11, Vector12, Vector13, Time\n");
             for (int i = 0; i < mResultLog.size(); i++)
-                bw.write(mDevice.getAddress() + "," + mDevice.getName() + "," + mResultLog.get(i) + "\n");
+                bw.write(mDevice.getAddress() + "," + mThingySdkManager.getDeviceName(mDevice) + "," + mResultLog.get(i) + "\n");
             bw.close();
             fw.close();
 
@@ -772,6 +772,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
                                 saveBuffer.add(sCurrentLine);
                             }
                         } catch (FileNotFoundException e) {
+                            e.printStackTrace();
                             e.printStackTrace();
                         } catch (IOException e) {
                             e.printStackTrace();

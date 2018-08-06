@@ -98,6 +98,7 @@ public class ThingyConnection extends BluetoothGattCallback {
     private BluetoothGattCharacteristic mClassificationCharacteristic;
     private BluetoothGattCharacteristic mFeatureVectorCharacteristic;
     private BluetoothGattCharacteristic mResultVectorCharacteristic;
+    private BluetoothGattCharacteristic mTimeCharacteristic;
 
     private BluetoothGattCharacteristic mLedCharacteristic;
     private BluetoothGattCharacteristic mButtonCharacteristic;
@@ -207,6 +208,18 @@ public class ThingyConnection extends BluetoothGattCallback {
         return mPlayPcmRequested;
     }
 
+    public String getTime() {
+        //return mTimeCharacteristic.getStringValue(0);
+
+        final int year1 = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 0);
+        final int year2 = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 1);
+        final int month = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 2);
+        final int day = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 3);
+        final int hour = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 4);
+        final int min = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 5);
+
+        return year1 + " " + year2 + " " + month + " " + day + " " + hour + " " + min;
+    }
     public void setAudioStreamingInProgress(boolean mAudioStreamingInProgress) {
         this.mPlayPcmRequested = mAudioStreamingInProgress;
     }
@@ -344,6 +357,7 @@ public class ThingyConnection extends BluetoothGattCallback {
             mClassificationCharacteristic = mPMEService.getCharacteristic(ThingyUtils.PME_CLASSIFICATION_CHARACTERISTIC);
             mFeatureVectorCharacteristic = mPMEService.getCharacteristic(ThingyUtils.FEATURE_VECTOR_CHARACTERISTIC);
             mResultVectorCharacteristic = mPMEService.getCharacteristic(ThingyUtils.RESULT_VECTOR_CHARACTERISTIC);
+            mTimeCharacteristic = mPMEService.getCharacteristic(ThingyUtils.TIME_CHARACTERISTIC);
             Log.v(TAG, "Reading PME char");
         }
 
@@ -1130,6 +1144,10 @@ public class ThingyConnection extends BluetoothGattCallback {
 
             if (mFirmwareVersionCharacteristic != null) {
                 add(RequestType.READ_CHARACTERISTIC, mFirmwareVersionCharacteristic);
+            }
+
+            if (mTimeCharacteristic != null) {
+                add(RequestType.READ_CHARACTERISTIC, mTimeCharacteristic);
             }
         }
 

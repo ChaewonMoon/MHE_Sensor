@@ -765,6 +765,8 @@ public class InitialConfigurationActivity extends AppCompatActivity implements S
                         if (mDevice != null && !mDeviceName.isEmpty()) {
                             if (mThingySdkManager != null) {
                                 mThingySdkManager.setDeviceName(mDevice, mDeviceName);
+                                Log.d("Name : ", mDevice.getName());
+                                Log.d("Name : ", mThingySdkManager.getDeviceName(mDevice));
                             }
                         }
                         mDeviceNameContainer.setVisibility(View.GONE);

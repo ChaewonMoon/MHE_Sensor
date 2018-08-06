@@ -80,10 +80,18 @@
             android:checked="false"
             android:icon="@drawable/ic_cloud_upload"
             android:title="@string/receive_title" />
+
+        <item
+            android:id="@+id/navigation_reset"
+            android:checked="false"
+            android:icon="@drawable/ic_settings"
+            android:title="Reset" />
+
     </group>
     <group
         android:checkableBehavior="single"
         android:id="@+id/configuration_menu">
+
         <item
             android:id="@+id/navigation_configuration"
             android:checked="false"

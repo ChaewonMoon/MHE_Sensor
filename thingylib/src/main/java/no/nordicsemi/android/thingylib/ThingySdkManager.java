@@ -115,6 +115,17 @@ public class ThingySdkManager {
         }
     };
 
+    public String getDeviceTime(BluetoothDevice device) {
+        if(device != null) {
+            if (mBinder != null) {
+                final ThingyConnection thingyConnection = mBinder.getThingyConnection(device);
+                if(thingyConnection != null) {
+                    return thingyConnection.getTime();
+                }
+            }
+        }
+        return "NONE";
+    }
     /**
      * Bind to the base service. This will start the BaseThingyService as a started service and then bind to it.
      * Implement @link {@link ServiceConnectionListener} in the activity to get the service @link {@link ServiceConnection onServiceConnected callbacks}
