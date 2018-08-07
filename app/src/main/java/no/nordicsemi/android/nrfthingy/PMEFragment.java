@@ -97,6 +97,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
     public CheckReceive mCheckReceive = new CheckReceive();
     public CheckConnection mCheckConnection = new CheckConnection();
     public boolean isRun = false;
+
     OkHttpClient client;
     MediaType JSON;
 
@@ -263,8 +264,11 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
                 // (set selection to the last element)
                 mResultVectorView.setSelection(mResultVectorAdapter.getCount() - 1);
 
-
-                if(!isRun && mResultLog.size() == 1)
+                if(mThingySdkManager.isFirst && mResultLog.size() == 1) {
+                    Log.d("RESULT : ", "is first time");
+                    mCheckConnection.execute();
+                }
+                else if(!isRun && mResultLog.size() == 1)
                     mCheckReceive.execute();
             }
             else {
@@ -801,14 +805,15 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
     class CheckConnection extends AsyncTask<Integer, Integer, Integer> {
         @Override
         protected Integer doInBackground(Integer... integers) {
-
-            isRun = true;
             try {
-                int size = mResultLog.size();
-                Thread.sleep(500);
-                if (mResultLog.size() == size) {
-                    ThingySdkManager mThingySdkManager = ThingySdkManager.getInstance();
-                    mThingySdkManager.enableResultVectorNotifications(mDevice, false);
+                while(true) {
+                    int size = mResultLog.size();
+                    Thread.sleep(500);
+                    if (mResultLog.size() == size) {
+                        mThingySdkManager.isFirst = false;
+                        mResultLog.clear();
+                        mThingySdkManager.enableResultVectorNotifications(mDevice, false);
+                    }
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

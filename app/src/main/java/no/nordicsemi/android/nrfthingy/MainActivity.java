@@ -233,91 +233,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      public MainActivity() {
      }
 
-
-     /*
-     Created by Chaewon.Moon
-      */
-    //http post방식으로 서버에 값 전달
-/*
-    public void uploadBT_clicked(View v) {
-        Log.e("CW","uploadBT");
-        String tempC = new String();
-         ContentValues contentValues = new ContentValues();
-
-        /*mThingySdkManager.enableResultVectorNotifications(mDevice, true);
-        PMEFragment PME = PMEFragment.newInstance(mDevice);
-        ArrayList<String> mLog = PME.getmResultLog();
-         contentValues.put("a",mDevice.getAddress());
-         contentValues.put("b",mDevice.getName());
-         tempC += "size : " + mLog.size() + ":";
-         for(int i=0;i<mLog.size();i++){
-             tempC += mLog.get(i) + "/";
-         }*/
-/*
-        FileReader fr;
-        BufferedReader br;
-        String sCurrentLine = new String();
-
-        List<String> saveBuffer = new ArrayList<String>();
-        File tempDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/MHE_RESULT");
-        if (!tempDir.exists())
-            tempDir.mkdirs();
-        try {
-            fr = new FileReader(tempDir +"time"+ "Result.csv");
-            br = new BufferedReader(fr);
-
-            while((sCurrentLine= br.readLine()) != null){
-                saveBuffer.add(sCurrentLine);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        saveBuffer.remove(0);
-
-        //Log.e("CW", "tempC : " + tempC);
-         //contentValues.put("c", tempC);
-        contentValues.put("a", saveBuffer.toString());
-
-        String url = "http://13.230.57.228:8080/create";
-
-        // AsyncTask를 통해 HttpURLConnection 수행.
-        NetworkTask networkTask = new NetworkTask(url,  contentValues);
-        networkTask.execute();
-     }
-
-
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
-
-        private String url;
-        private ContentValues values;
-
-        public NetworkTask(String url, ContentValues values) {
-
-            this.url = url;
-            this.values = values;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            Log.e("CW","doInbackground" + values);
-            String result; // 요청 결과를 저장할 변수.
-            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
-
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            Log.e("CW", s);
-        }
-    }
-*/
-
     public void downloadBT_clicked(View v) {
         Toast.makeText(getApplicationContext(), "DATA Down Start", Toast.LENGTH_LONG).show();
 
@@ -1074,7 +989,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.navigation_reset:
-                Log.d("Device time", " : " + mThingySdkManager.getDeviceTime(mDevice));
+                if(mThingySdkManager.isFirst) {
+                    mThingySdkManager.setDeviceTime(mDevice);
+                    mThingySdkManager.enableResultVectorNotifications(mDevice, true);
+                    Log.d("Device time", " : " + mThingySdkManager.getDeviceTime(mDevice));
+                }
                 break;
             /*case R.id.navigation_cloud: //MHE// 사용하지 않는 fragment 입니다.
                 if (fragmentManager.findFragmentByTag(Utils.CLOUD_FRAGMENT) == null) {

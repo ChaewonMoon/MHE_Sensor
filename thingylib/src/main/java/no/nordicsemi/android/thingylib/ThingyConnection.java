@@ -63,7 +63,9 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.security.Key;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -208,6 +210,23 @@ public class ThingyConnection extends BluetoothGattCallback {
         return mPlayPcmRequested;
     }
 
+    public byte[] String2Byte(String str) {
+        byte[] arr = new byte[6];
+        arr[0] = Byte.parseByte(str.substring(0, 2));
+        arr[1] = Byte.parseByte(str.substring(2, 4));
+        arr[2] = Byte.parseByte(str.substring(4, 6));
+        arr[3] = Byte.parseByte(str.substring(6, 8));
+        arr[4] = Byte.parseByte(str.substring(8, 10));
+        arr[5] = Byte.parseByte(str.substring(10, 12));
+
+        return arr;
+    }
+
+    public void setTime() {
+        String time = new SimpleDateFormat("yyyyMMddHHmm").format(new Date(System.currentTimeMillis()));
+        Log.d("time ", ": " + time);
+        add(RequestType.WRITE_CHARACTERISTIC, mTimeCharacteristic, String2Byte(time), BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
+    }
     public String getTime() {
         //return mTimeCharacteristic.getStringValue(0);
 

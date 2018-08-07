@@ -65,6 +65,7 @@ public class ThingySdkManager {
     public ThingySdkManager mThingySdkManager;
     private ServiceConnectionListener mServiceConnectionListener;
     private BaseThingyService.BaseThingyBinder mBinder;
+    public boolean isFirst = true;
 
     /**
      * Creates a static instance of this class that could be used throughout the application lifecycle.
@@ -115,6 +116,16 @@ public class ThingySdkManager {
         }
     };
 
+    public void setDeviceTime(BluetoothDevice device) {
+        if(device != null) {
+            if (mBinder != null) {
+                final ThingyConnection thingyConnection = mBinder.getThingyConnection(device);
+                if(thingyConnection != null) {
+                    thingyConnection.setTime();
+                }
+            }
+        }
+    }
     public String getDeviceTime(BluetoothDevice device) {
         if(device != null) {
             if (mBinder != null) {
