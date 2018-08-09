@@ -70,6 +70,11 @@
             android:checked="false"
             android:icon="@drawable/ic_pme"
             android:title="@string/pme_result_title" />
+        <item
+            android:id="@+id/navigation_fusion"
+            android:checked="false"
+            android:icon="@drawable/ic_pme"
+            android:title="@string/pme_fusion" />
         <!--<item
             android:id="@+id/navigation_cloud"
             android:checked="false"

@@ -238,8 +238,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mThingySdkManager.enableResultVectorNotifications(mDevice, true);
 
-        PMEFragment PME = PMEFragment.newInstance(mDevice);
-        PME.mCheckConnection.execute();
         Toast.makeText(getApplicationContext(), "DATA Down Finish", Toast.LENGTH_LONG).show();
     }
 
@@ -938,6 +936,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getSupportFragmentManager().beginTransaction().add(R.id.container, resultFragment, mFragmentTag).commit();
                 }
                 break;
+            case R.id.navigation_fusion: //MHE// FUSION 시연용
+                if (fragmentManager.findFragmentByTag(Utils.PME_FUSION) == null) {
+                    if (mThingySdkManager.isConnected(mDevice)) {
+                        mThingySdkManager.enableEnvironmentNotifications(mDevice, false);
+                        mThingySdkManager.enableMotionNotifications(mDevice, false);
+                        mThingySdkManager.enableUiNotifications(mDevice, false);
+                        mThingySdkManager.enableSoundNotifications(mDevice, false);
+                        mThingySdkManager.enablePMENotifications(mDevice, false);
+                    }
+
+                    final String fragmentTag = mFragmentTag;
+                    clearFragments(fragmentTag);
+                    mFragmentTag = Utils.PME_FUSION;
+
+                    FusionFragment fusionFragment = FusionFragment.newInstance(mConnectedBleDeviceList);
+                    getSupportFragmentManager().beginTransaction().add(R.id.container, fusionFragment, mFragmentTag).commit();
+                }
+                break;
             case R.id.navigation_motion: //MHE// 사용하지 않는 fragment입니다.
                 if (fragmentManager.findFragmentByTag(Utils.MOTION_FRAGMENT) == null) {
                     if (mThingySdkManager.isConnected(mDevice)) {
@@ -989,6 +1005,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.navigation_reset:
+                mThingySdkManager.isFirst = true;
                 if(mThingySdkManager.isFirst) {
                     mThingySdkManager.setDeviceTime(mDevice);
                     mThingySdkManager.enableResultVectorNotifications(mDevice, true);

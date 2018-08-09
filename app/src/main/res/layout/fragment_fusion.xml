@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/fusion_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fusion Start" />
+
+    <TextView
+        android:id="@+id/fusion_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Waiting"
+        android:textSize="60dp" />
+
+    <LinearLayout
+        android:id="@+id/fusion_sequence"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/p1_round"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/p1_round"
+            tools:layout_editer_absolute="80dp" />
+
+        <ImageView
+            android:id="@+id/p1_cross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/p1_cross"
+            tools:layout_editer_absolute="80dp" />
+
+        <ImageView
+            android:id="@+id/p1_touch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/p1_touch"
+            tools:layout_editer_absolute="80dp" />
+
+        <ImageView
+            android:id="@+id/p2_touch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/p2_touch"
+            tools:layout_editer_absolute="80dp" />
+
+        <ImageView
+            android:id="@+id/p2_cross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/p2_cross"
+            tools:layout_editer_absolute="80dp" />
+
+        <ImageView
+            android:id="@+id/p2_round"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/p2_round"
+            tools:layout_editer_absolute="80dp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/fusion_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true" />
+</LinearLayout>

@@ -216,6 +216,7 @@
     <string name="sound_title">Sound</string>
     <string name="pme_title">PME</string>
     <string name="pme_result_title">PME LIST</string>
+    <string name="pme_fusion">PME FUSION</string>
     <string name="speaker_title">Speaker</string>
     <string name="microphone_title">Microphone</string>
     <string name="welcome_title">Welcome to MHE</string>

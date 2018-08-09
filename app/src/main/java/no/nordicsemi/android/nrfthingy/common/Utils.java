@@ -119,6 +119,7 @@ public class Utils {
     public static final String ENVIRONMENT_FRAGMENT = "ENVIRONMENT_FRAGMENT";
     public static final String PME_FRAGMENT = "PME_FRAGMENT";
     public static final String PME_RESULT = "PME_RESULT";
+    public static final String PME_FUSION = "PME_FUSION";
     public static final String RECEIVE_FRAGMENT = "RECEIVE_FRAGMENT";
     public static final String MOTION_FRAGMENT = "MOTION_FRAGMENT";
     public static final String UI_FRAGMENT = "UI_FRAGMENT";

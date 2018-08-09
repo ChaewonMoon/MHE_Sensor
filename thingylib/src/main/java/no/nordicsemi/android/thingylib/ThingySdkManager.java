@@ -65,7 +65,7 @@ public class ThingySdkManager {
     public ThingySdkManager mThingySdkManager;
     private ServiceConnectionListener mServiceConnectionListener;
     private BaseThingyService.BaseThingyBinder mBinder;
-    public boolean isFirst = true;
+    public boolean isFirst = false;
 
     /**
      * Creates a static instance of this class that could be used throughout the application lifecycle.

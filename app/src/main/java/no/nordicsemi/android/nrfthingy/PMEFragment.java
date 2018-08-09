@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -266,6 +267,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
 
                 if(mThingySdkManager.isFirst && mResultLog.size() == 1) {
                     Log.d("RESULT : ", "is first time");
+                    mThingySdkManager.isFirst = false;
                     mCheckConnection.execute();
                 }
                 else if(!isRun && mResultLog.size() == 1)
@@ -325,7 +327,6 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
         @Override
         public void connectionCheck() {
             Log.d("PME connection check ", "start thread start");
-            mCheckConnection.execute();
         }
     };
 
@@ -345,7 +346,6 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
         }
         client = new OkHttpClient();
         JSON = MediaType.parse("application/json; charset=utf-8");
-
     }
 
     @Override
@@ -810,7 +810,6 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
                     int size = mResultLog.size();
                     Thread.sleep(500);
                     if (mResultLog.size() == size) {
-                        mThingySdkManager.isFirst = false;
                         mResultLog.clear();
                         mThingySdkManager.enableResultVectorNotifications(mDevice, false);
                     }
