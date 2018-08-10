@@ -236,9 +236,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void downloadBT_clicked(View v) {
         Toast.makeText(getApplicationContext(), "DATA Down Start", Toast.LENGTH_LONG).show();
 
-        mThingySdkManager.enableResultVectorNotifications(mDevice, true);
-
-        Toast.makeText(getApplicationContext(), "DATA Down Finish", Toast.LENGTH_LONG).show();
+        if(mThingySdkManager.dataCheck(mDevice)) {
+            mThingySdkManager.enableResultVectorNotifications(mDevice, true);
+            Toast.makeText(getApplicationContext(), "DATA Down Finish", Toast.LENGTH_LONG).show();
+        }
+        else
+            Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_LONG).show();
     }
 
     private ThingyListener mThingyListener = new ThingyListener() {

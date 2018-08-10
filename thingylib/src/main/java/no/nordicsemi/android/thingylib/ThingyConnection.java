@@ -100,6 +100,7 @@ public class ThingyConnection extends BluetoothGattCallback {
     private BluetoothGattCharacteristic mClassificationCharacteristic;
     private BluetoothGattCharacteristic mFeatureVectorCharacteristic;
     private BluetoothGattCharacteristic mResultVectorCharacteristic;
+    private BluetoothGattCharacteristic mDataCheckCharacteristic;
     private BluetoothGattCharacteristic mTimeCharacteristic;
 
     private BluetoothGattCharacteristic mLedCharacteristic;
@@ -220,6 +221,27 @@ public class ThingyConnection extends BluetoothGattCallback {
         arr[5] = Byte.parseByte(str.substring(10, 12));
 
         return arr;
+    }
+
+    public boolean dataCheck() {
+        String s = "AA";
+        byte[] data = new byte[]{(byte)0xAA, (byte)0xAA};
+        add(RequestType.WRITE_CHARACTERISTIC, mTimeCharacteristic, data, BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
+        //mDataCheckCharacteristic.setValue(data);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        add(RequestType.READ_CHARACTERISTIC, mDataCheckCharacteristic);
+        String result = mDataCheckCharacteristic.getStringValue(0);
+        //int result1 = mDataCheckCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 0);
+        //int result2 = mDataCheckCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 1);
+        Log.d("data Check : ", result + " " + data);
+        //if(result1 + result2 == 0)
+        //    return false;
+        //else
+            return false;
     }
 
     public void setTime() {
@@ -376,6 +398,7 @@ public class ThingyConnection extends BluetoothGattCallback {
             mClassificationCharacteristic = mPMEService.getCharacteristic(ThingyUtils.PME_CLASSIFICATION_CHARACTERISTIC);
             mFeatureVectorCharacteristic = mPMEService.getCharacteristic(ThingyUtils.FEATURE_VECTOR_CHARACTERISTIC);
             mResultVectorCharacteristic = mPMEService.getCharacteristic(ThingyUtils.RESULT_VECTOR_CHARACTERISTIC);
+            mDataCheckCharacteristic = mPMEService.getCharacteristic(ThingyUtils.DATA_CHECK_CHARACTERISTIC);
             mTimeCharacteristic = mPMEService.getCharacteristic(ThingyUtils.TIME_CHARACTERISTIC);
             Log.v(TAG, "Reading PME char");
         }
@@ -1168,6 +1191,10 @@ public class ThingyConnection extends BluetoothGattCallback {
             if (mTimeCharacteristic != null) {
                 add(RequestType.READ_CHARACTERISTIC, mTimeCharacteristic);
             }
+/*
+            if (mDataCheckCharacteristic != null) {
+                add(RequestType.READ_CHARACTERISTIC, mDataCheckCharacteristic);
+            }*/
         }
 
         if(mBatteryLevelCharacteristic != null) {

@@ -409,10 +409,13 @@ public class FusionFragment extends Fragment {
                         p1_touch = true;
                         mP1_touch.setVisibility(View.VISIBLE);
                     }
+
+                    if(status.equals("1") || status.equals("2") || status.equals("3"))
+                        mFusionAdapter.changeImg(bluetoothDevice, status);
                 }
                 else if(bluetoothDevice.equals(mBleList.get(1))) {
                     if(!p2_round && !p2_cross && !p2_touch && status.equals("5")) {
-                        p1_round = true;
+                        p2_round = true;
                         mP2_round.setVisibility(View.VISIBLE);
                     }
                     else if(p2_round && !p2_cross && !p2_touch && status.equals("4")) {
@@ -423,9 +426,11 @@ public class FusionFragment extends Fragment {
                         p2_touch = true;
                         mP2_touch.setVisibility(View.VISIBLE);
                     }
+
+                    if(status.equals("4") || status.equals("5") || status.equals("6"))
+                        mFusionAdapter.changeImg(bluetoothDevice, status);
                 }
             }
-            mFusionAdapter.changeImg(bluetoothDevice, status);
         }
 
         @Override
@@ -516,7 +521,7 @@ public class FusionFragment extends Fragment {
             }
             mFusionResult.setText("Start!");
             try {
-                Thread.sleep(6000);
+                Thread.sleep(15000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

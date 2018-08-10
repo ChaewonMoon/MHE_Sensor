@@ -95,6 +95,7 @@ public class ThingyUtils {
     public static final UUID FEATURE_VECTOR_CHARACTERISTIC                                      = new UUID(0xEF68040C9B354933L, 0x9B1052FFA9740042L);
     public static final UUID RESULT_VECTOR_CHARACTERISTIC                                       = new UUID(0xEF6804169B354933L, 0x9B1052FFA9740042L);
     public static final UUID TIME_CHARACTERISTIC                                                = new UUID(0xEF6804179B354933L, 0x9B1052FFA9740042L);
+    public static final UUID DATA_CHECK_CHARACTERISTIC                                          = new UUID(0xEF68041D9B354933L, 0x9B1052FFA9740042L);
 
 
 

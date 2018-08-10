@@ -116,6 +116,18 @@ public class ThingySdkManager {
         }
     };
 
+    public boolean dataCheck(BluetoothDevice device) {
+        if(device != null) {
+            if (mBinder != null) {
+                final ThingyConnection thingyConnection = mBinder.getThingyConnection(device);
+                if(thingyConnection != null) {
+                    return thingyConnection.dataCheck();
+                }
+            }
+        }
+        return false;
+    }
+
     public void setDeviceTime(BluetoothDevice device) {
         if(device != null) {
             if (mBinder != null) {
