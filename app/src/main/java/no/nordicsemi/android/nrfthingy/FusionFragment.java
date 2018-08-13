@@ -1,10 +1,15 @@
 package no.nordicsemi.android.nrfthingy;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.MainThread;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,8 +21,13 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.MediaController;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.VideoView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 import java.util.ArrayList;
 
@@ -40,7 +50,6 @@ import okhttp3.MediaType;
  */
 public class FusionFragment extends Fragment {
 
-
     private ListViewAdapter mFusionAdapter;
     private ArrayList<BluetoothDevice> mBleList;
     private ListView mFusionListView;
@@ -48,7 +57,7 @@ public class FusionFragment extends Fragment {
     private ThingySdkManager mThingySdkManager = null;
     private DatabaseHelper mDatabaseHelper;
     private Button fusionStart;
-    private TextView mFusionResult;
+    private ImageView mFusionResult;
 
     private ImageView mP1_cross;
     private ImageView mP1_round;
@@ -63,8 +72,6 @@ public class FusionFragment extends Fragment {
     private boolean p2_round = false;
     private boolean p2_cross = false;
     private boolean p2_touch = false;
-
-
 
     public CheckTime mCheckTime;
 
@@ -96,7 +103,6 @@ public class FusionFragment extends Fragment {
             mBleList = getArguments().getParcelableArrayList(Utils.CURRENT_DEVICE_LIST);
         }
         JSON = MediaType.parse("application/json; charset=utf-8");
-
     }
 
     @Override
@@ -117,7 +123,7 @@ public class FusionFragment extends Fragment {
             ThingyListenerHelper.registerThingyListener(getContext(), mThingyListener, mBleList.get(i));
         }
 
-        mFusionResult = (TextView) rootView.findViewById(R.id.fusion_result);
+        mFusionResult = (ImageView) rootView.findViewById(R.id.fusion_result);
         fusionStart = (Button) rootView.findViewById(R.id.fusion_start);
         mP1_cross = (ImageView) rootView.findViewById(R.id.p1_cross);
         mP1_round = (ImageView) rootView.findViewById(R.id.p1_round);
@@ -237,6 +243,8 @@ public class FusionFragment extends Fragment {
                 mHolderList.get(mBleList.indexOf(device)).mResultImage.setImageResource(R.drawable.p2_round);
             else if(status.equals("6"))
                 mHolderList.get(mBleList.indexOf(device)).mResultImage.setImageResource(R.drawable.p2_touch);
+            else if(status.equals("SUCCESS"))
+                mHolderList.get(mBleList.indexOf(device)).mResultImage.setImageResource(R.drawable.fusion_success_mov);
         }
 
         public void remove(BluetoothDevice device) {
@@ -399,14 +407,20 @@ public class FusionFragment extends Fragment {
                 if(bluetoothDevice.equals(mBleList.get(0))) {
                     if(!p1_round && !p1_cross && !p1_touch && status.equals("2")) {
                         p1_round = true;
+                        MediaPlayer mp = MediaPlayer.create(FusionFragment.this.getContext(), R.raw.fu);
+                        mp.start();
                         mP1_round.setVisibility(View.VISIBLE);
                     }
                     else if(p1_round && !p1_cross && !p1_touch && status.equals("1")) {
                         p1_cross = true;
+                        MediaPlayer mp = MediaPlayer.create(FusionFragment.this.getContext(), R.raw.sion);
+                        mp.start();
                         mP1_cross.setVisibility(View.VISIBLE);
                     }
                     else if(p1_round && p1_cross && !p1_touch && status.equals("3")) {
                         p1_touch = true;
+                        MediaPlayer mp = MediaPlayer.create(FusionFragment.this.getContext(), R.raw.hap);
+                        mp.start();
                         mP1_touch.setVisibility(View.VISIBLE);
                     }
 
@@ -416,14 +430,20 @@ public class FusionFragment extends Fragment {
                 else if(bluetoothDevice.equals(mBleList.get(1))) {
                     if(!p2_round && !p2_cross && !p2_touch && status.equals("5")) {
                         p2_round = true;
+                        MediaPlayer mp = MediaPlayer.create(FusionFragment.this.getContext(), R.raw.fu);
+                        mp.start();
                         mP2_round.setVisibility(View.VISIBLE);
                     }
                     else if(p2_round && !p2_cross && !p2_touch && status.equals("4")) {
                         p2_cross = true;
+                        MediaPlayer mp = MediaPlayer.create(FusionFragment.this.getContext(), R.raw.sion);
+                        mp.start();
                         mP2_cross.setVisibility(View.VISIBLE);
                     }
                     else if(p2_round && p2_cross && !p2_touch && status.equals("6")) {
                         p2_touch = true;
+                        MediaPlayer mp = MediaPlayer.create(FusionFragment.this.getContext(), R.raw.hap);
+                        mp.start();
                         mP2_touch.setVisibility(View.VISIBLE);
                     }
 
@@ -487,24 +507,26 @@ public class FusionFragment extends Fragment {
         public void connectionCheck() {
 
         }
+
     };
 
-    class CheckTime extends AsyncTask<Integer, Integer, Integer> {
+    class CheckTime extends AsyncTask<Integer, String, Integer> {
         @Override
         protected Integer doInBackground(Integer... integers) {
-            mFusionResult.setText("3");
+            publishProgress("INVISIBLE");
+            publishProgress("3");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            mFusionResult.setText("2");
+            publishProgress("2");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            mFusionResult.setText("1");
+            publishProgress("1");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -519,9 +541,9 @@ public class FusionFragment extends Fragment {
                 mDatabaseHelper.updateNotificationsState(mBleList.get(1).getAddress(), true,
                         DatabaseContract.ThingyDbColumns.COLUMN_NOTIFICATION_CLASSIFICATION);
             }
-            mFusionResult.setText("Start!");
+            publishProgress("0");
             try {
-                Thread.sleep(15000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -533,12 +555,28 @@ public class FusionFragment extends Fragment {
                 mDatabaseHelper.updateNotificationsState(mBleList.get(1).getAddress(), false,
                         DatabaseContract.ThingyDbColumns.COLUMN_NOTIFICATION_CLASSIFICATION);
             }
+
+            /*
+            p1_cross = true;
+            p1_round = true;
+            p1_touch = true;
+            p2_cross = true;
+            p2_round = true;
+            p2_touch = true;
+            */
+            publishProgress("GIF");
+            try {
+                Thread.sleep(6500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if(p1_cross && p1_round && p1_touch && p2_cross && p2_round && p2_touch) {
-                mFusionResult.setText("Fusion Success!");
+                publishProgress("SUCCESS");
             }
             else {
-                mFusionResult.setText("Fusion Fail");
+                publishProgress("FAIL");
             }
+
             p1_cross = false;
             p1_round = false;
             p1_touch = false;
@@ -546,6 +584,40 @@ public class FusionFragment extends Fragment {
             p2_round = false;
             p2_touch = false;
             return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... str) {
+            Log.d("FusionFragment", "UPDATE");
+            if(str[0].equals("3")) {
+                Log.d("FusionFragment", "3");
+                mFusionResult.setImageResource(R.drawable.three);
+            }
+            else if(str[0].equals("2"))
+                mFusionResult.setImageResource(R.drawable.two);
+            else if(str[0].equals("1"))
+                mFusionResult.setImageResource(R.drawable.one);
+            else if(str[0].equals("0"))
+                mFusionResult.setImageResource(R.drawable.start);
+            else if(str[0].equals("GIF")) {
+
+                GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(mFusionResult);
+                Glide.with(FusionFragment.this).load(R.drawable.fusion_success_mov).into(gifImage);
+
+                //mFusionResult.setImageResource(R.drawable.blank);
+            }
+            else if(str[0].equals("SUCCESS"))
+                mFusionResult.setImageResource(R.drawable.fusion_success);
+            else if(str[0].equals("FAIL"))
+                mFusionResult.setImageResource(R.drawable.fusion_fail);
+            else if(str[0].equals("INVISIBLE")) {
+                mP1_round.setVisibility(View.INVISIBLE);
+                mP2_round.setVisibility(View.INVISIBLE);
+                mP1_cross.setVisibility(View.INVISIBLE);
+                mP2_cross.setVisibility(View.INVISIBLE);
+                mP1_touch.setVisibility(View.INVISIBLE);
+                mP2_touch.setVisibility(View.INVISIBLE);
+            }
         }
     }
 }

@@ -249,6 +249,33 @@ public class ThingyConnection extends BluetoothGattCallback {
         Log.d("time ", ": " + time);
         add(RequestType.WRITE_CHARACTERISTIC, mTimeCharacteristic, String2Byte(time), BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
     }
+
+    public String getYear() {
+        final int year1 = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 0);
+        final int year2 = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 1);
+        return year1 + "" + year2;
+    }
+
+    public String getMonth() {
+        final int month = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 2);
+        return month + "";
+    }
+
+    public String getDay() {
+        final int day = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 3);
+        return day + "";
+    }
+
+    public String getHour() {
+        final int hour = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 4);
+        return hour + "";
+    }
+
+    public String getMin() {
+        final int min = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 5);
+        return min+ "";
+    }
+
     public String getTime() {
         //return mTimeCharacteristic.getStringValue(0);
 
@@ -259,7 +286,7 @@ public class ThingyConnection extends BluetoothGattCallback {
         final int hour = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 4);
         final int min = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 5);
 
-        return year1 + " " + year2 + " " + month + " " + day + " " + hour + " " + min;
+        return year1 + year2 + " " + month + " " + day + " " + hour + " " + min;
     }
     public void setAudioStreamingInProgress(boolean mAudioStreamingInProgress) {
         this.mPlayPcmRequested = mAudioStreamingInProgress;

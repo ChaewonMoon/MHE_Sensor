@@ -149,6 +149,67 @@ public class ThingySdkManager {
         }
         return "NONE";
     }
+
+    public String getDeviceYear(BluetoothDevice device) {
+        if(device != null) {
+            if (mBinder != null) {
+                final ThingyConnection thingyConnection = mBinder.getThingyConnection(device);
+                if(thingyConnection != null) {
+                    return thingyConnection.getYear();
+                }
+            }
+        }
+        return "NONE";
+    }
+
+    public String getDeviceMonth(BluetoothDevice device) {
+        if(device != null) {
+            if (mBinder != null) {
+                final ThingyConnection thingyConnection = mBinder.getThingyConnection(device);
+                if(thingyConnection != null) {
+                    return thingyConnection.getMonth();
+                }
+            }
+        }
+        return "NONE";
+    }
+
+    public String getDeviceDay(BluetoothDevice device) {
+        if(device != null) {
+            if (mBinder != null) {
+                final ThingyConnection thingyConnection = mBinder.getThingyConnection(device);
+                if(thingyConnection != null) {
+                    return thingyConnection.getDay();
+                }
+            }
+        }
+        return "NONE";
+    }
+
+    public String getDeviceHour(BluetoothDevice device) {
+        if(device != null) {
+            if (mBinder != null) {
+                final ThingyConnection thingyConnection = mBinder.getThingyConnection(device);
+                if(thingyConnection != null) {
+                    return thingyConnection.getHour();
+                }
+            }
+        }
+        return "NONE";
+    }
+
+    public String getDeviceMin(BluetoothDevice device) {
+        if(device != null) {
+            if (mBinder != null) {
+                final ThingyConnection thingyConnection = mBinder.getThingyConnection(device);
+                if(thingyConnection != null) {
+                    return thingyConnection.getMin();
+                }
+            }
+        }
+        return "NONE";
+    }
+
     /**
      * Bind to the base service. This will start the BaseThingyService as a started service and then bind to it.
      * Implement @link {@link ServiceConnectionListener} in the activity to get the service @link {@link ServiceConnection onServiceConnected callbacks}

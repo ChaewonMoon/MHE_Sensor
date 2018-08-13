@@ -43,6 +43,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -256,6 +257,8 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
                         , "time : " + time);
                 mResultVectorAdapter.notifyDataSetChanged();
 
+                //Calendar cal = Calendar.getInstance();
+                mThingySdkManager.getDeviceTime(bluetoothDevice);
                 time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(System.currentTimeMillis()));
                 mResultLog.add(R_0 + "," + R_1 + "," + R_3 + "," + R_4 + "," + R_5 + "," + R_6 + "," + R_7
                         + "," + R_8 + "," + R_9 + "," + R_10 + "," + R_11 + "," + R_12 + "," + R_13 + "," + R_14 + "," + R_15 + "," + time);

@@ -868,6 +868,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final int itemId = item.getItemId();
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (itemId) {
+            /*
             case R.id.navigation_environment:
                 if (fragmentManager.findFragmentByTag(Utils.ENVIRONMENT_FRAGMENT) == null) {
                     if (mThingySdkManager.isConnected(mDevice)) {
@@ -903,6 +904,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getSupportFragmentManager().beginTransaction().add(R.id.container, receiveFragment, mFragmentTag).commit();
                 }
                 break;
+                */
             case R.id.navigation_pme: //MHE// 원래 없던건데 센서로부터 값을 받아오는 fragment를 위해 사용
                 if (fragmentManager.findFragmentByTag(Utils.PME_FRAGMENT) == null) {
                     if (mThingySdkManager.isConnected(mDevice)) {
@@ -921,7 +923,79 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getSupportFragmentManager().beginTransaction().add(R.id.container, pmeFragment, mFragmentTag).commit();
                 }
                 break;
-            case R.id.navigation_result: //MHE// 원래 없던건데 센서 리스트들 표시를 위해 사용
+            case R.id.navigation_hallabong: //MHE// 원래 없던건데 센서 리스트들 표시를 위해 사용
+                if (fragmentManager.findFragmentByTag(Utils.PME_RESULT) == null) {
+                    if (mThingySdkManager.isConnected(mDevice)) {
+                        mThingySdkManager.enableEnvironmentNotifications(mDevice, false);
+                        mThingySdkManager.enableMotionNotifications(mDevice, false);
+                        mThingySdkManager.enableUiNotifications(mDevice, false);
+                        mThingySdkManager.enableSoundNotifications(mDevice, false);
+                        mThingySdkManager.enablePMENotifications(mDevice, false);
+                    }
+
+                    final String fragmentTag = mFragmentTag;
+                    clearFragments(fragmentTag);
+                    mFragmentTag = Utils.PME_RESULT;
+
+                    ResultFragment resultFragment = ResultFragment.newInstance(mConnectedBleDeviceList);
+                    getSupportFragmentManager().beginTransaction().add(R.id.container, resultFragment, mFragmentTag).commit();
+                }
+                break;
+            case R.id.navigation_sojucup: //MHE// 원래 없던건데 센서 리스트들 표시를 위해 사용
+                if (fragmentManager.findFragmentByTag(Utils.PME_RESULT) == null) {
+                    if (mThingySdkManager.isConnected(mDevice)) {
+                        mThingySdkManager.enableEnvironmentNotifications(mDevice, false);
+                        mThingySdkManager.enableMotionNotifications(mDevice, false);
+                        mThingySdkManager.enableUiNotifications(mDevice, false);
+                        mThingySdkManager.enableSoundNotifications(mDevice, false);
+                        mThingySdkManager.enablePMENotifications(mDevice, false);
+                    }
+
+                    final String fragmentTag = mFragmentTag;
+                    clearFragments(fragmentTag);
+                    mFragmentTag = Utils.PME_RESULT;
+
+                    ResultFragment resultFragment = ResultFragment.newInstance(mConnectedBleDeviceList);
+                    getSupportFragmentManager().beginTransaction().add(R.id.container, resultFragment, mFragmentTag).commit();
+                }
+                break;
+            case R.id.navigation_pet: //MHE// 원래 없던건데 센서 리스트들 표시를 위해 사용
+                if (fragmentManager.findFragmentByTag(Utils.PME_RESULT) == null) {
+                    if (mThingySdkManager.isConnected(mDevice)) {
+                        mThingySdkManager.enableEnvironmentNotifications(mDevice, false);
+                        mThingySdkManager.enableMotionNotifications(mDevice, false);
+                        mThingySdkManager.enableUiNotifications(mDevice, false);
+                        mThingySdkManager.enableSoundNotifications(mDevice, false);
+                        mThingySdkManager.enablePMENotifications(mDevice, false);
+                    }
+
+                    final String fragmentTag = mFragmentTag;
+                    clearFragments(fragmentTag);
+                    mFragmentTag = Utils.PME_RESULT;
+
+                    ResultFragment resultFragment = ResultFragment.newInstance(mConnectedBleDeviceList);
+                    getSupportFragmentManager().beginTransaction().add(R.id.container, resultFragment, mFragmentTag).commit();
+                }
+                break;
+            case R.id.navigation_instrument: //MHE// 원래 없던건데 센서 리스트들 표시를 위해 사용
+                if (fragmentManager.findFragmentByTag(Utils.PME_RESULT) == null) {
+                    if (mThingySdkManager.isConnected(mDevice)) {
+                        mThingySdkManager.enableEnvironmentNotifications(mDevice, false);
+                        mThingySdkManager.enableMotionNotifications(mDevice, false);
+                        mThingySdkManager.enableUiNotifications(mDevice, false);
+                        mThingySdkManager.enableSoundNotifications(mDevice, false);
+                        mThingySdkManager.enablePMENotifications(mDevice, false);
+                    }
+
+                    final String fragmentTag = mFragmentTag;
+                    clearFragments(fragmentTag);
+                    mFragmentTag = Utils.PME_RESULT;
+
+                    ResultFragment resultFragment = ResultFragment.newInstance(mConnectedBleDeviceList);
+                    getSupportFragmentManager().beginTransaction().add(R.id.container, resultFragment, mFragmentTag).commit();
+                }
+                break;
+            case R.id.navigation_keyword: //MHE// 원래 없던건데 센서 리스트들 표시를 위해 사용
                 if (fragmentManager.findFragmentByTag(Utils.PME_RESULT) == null) {
                     if (mThingySdkManager.isConnected(mDevice)) {
                         mThingySdkManager.enableEnvironmentNotifications(mDevice, false);
@@ -974,6 +1048,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getSupportFragmentManager().beginTransaction().add(R.id.container, motionServiceFragment, mFragmentTag).commit();
                 }
                 break;
+                /*
             case R.id.navigation_ui:
                 if (fragmentManager.findFragmentByTag(Utils.UI_FRAGMENT) == null) {
                     if (mThingySdkManager.isConnected(mDevice)) {
@@ -991,6 +1066,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getSupportFragmentManager().beginTransaction().add(R.id.container, uiFragment, mFragmentTag).commit();
                 }
                 break;
+                */
             case R.id.navigation_sound:
                 if (fragmentManager.findFragmentByTag(Utils.SOUND_FRAGMENT) == null) {
                     if (mThingySdkManager.isConnected(mDevice)) {
@@ -1296,18 +1372,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void checkFragmentDrawerItem() {
         final String fragmentTag = mFragmentTag;
         switch (fragmentTag) {
+            /*
             case Utils.ENVIRONMENT_FRAGMENT:
                 checkSelection(mNavigationView.getMenu().findItem(R.id.navigation_environment));
                 break;
+                */
             case Utils.PME_FRAGMENT:
                 checkSelection(mNavigationView.getMenu().findItem(R.id.navigation_pme));
                 break;
+                /*
             case Utils.RECEIVE_FRAGMENT:
                 checkSelection(mNavigationView.getMenu().findItem(R.id.navigation_receive));
                 break;
             case Utils.UI_FRAGMENT:
                 checkSelection(mNavigationView.getMenu().findItem(R.id.navigation_ui));
                 break;
+                */
             case Utils.MOTION_FRAGMENT:
                 checkSelection(mNavigationView.getMenu().findItem(R.id.navigation_motion));
                 break;

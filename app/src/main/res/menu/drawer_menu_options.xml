@@ -40,6 +40,7 @@
     <group
         android:checkableBehavior="single"
         android:id="@+id/navigation_menu">
+        <!--
         <item
             android:id="@+id/navigation_environment"
             android:checked="false"
@@ -50,6 +51,7 @@
             android:checked="false"
             android:icon="@drawable/ic_widgets"
             android:title="@string/ui_title" />
+-->
         <item
             android:id="@+id/navigation_motion"
             android:checked="false"
@@ -61,31 +63,51 @@
             android:icon="@drawable/ic_sound"
             android:title="@string/sound_title" />
         <item
+            android:id="@+id/navigation_hallabong"
+            android:checked="false"
+            android:icon="@drawable/ic_motion"
+            android:title="HALLA BONG" />
+        <item
+            android:id="@+id/navigation_sojucup"
+            android:checked="false"
+            android:icon="@drawable/ic_pme"
+            android:title="SOJU CUP" />
+        <item
+            android:id="@+id/navigation_pet"
+            android:checked="false"
+            android:icon="@drawable/ic_pme"
+            android:title="PET" />
+        <item
             android:id="@+id/navigation_pme"
             android:checked="false"
             android:icon="@drawable/ic_pme"
             android:title="@string/pme_title" />
         <item
-            android:id="@+id/navigation_result"
+            android:id="@+id/navigation_instrument"
             android:checked="false"
             android:icon="@drawable/ic_pme"
-            android:title="@string/pme_result_title" />
+            android:title="INSTRUMENT" />
         <item
             android:id="@+id/navigation_fusion"
             android:checked="false"
             android:icon="@drawable/ic_pme"
             android:title="@string/pme_fusion" />
+        <item
+            android:id="@+id/navigation_keyword"
+            android:checked="false"
+            android:icon="@drawable/ic_pme"
+            android:title="KEYWORD" />
         <!--<item
             android:id="@+id/navigation_cloud"
             android:checked="false"
             android:icon="@drawable/ic_cloud_upload"
-            android:title="@string/cloud_title" />-->
+            android:title="@string/cloud_title" />
         <item
             android:id="@+id/navigation_receive"
             android:checked="false"
             android:icon="@drawable/ic_cloud_upload"
             android:title="@string/receive_title" />
-
+-->
         <item
             android:id="@+id/navigation_reset"
             android:checked="false"
