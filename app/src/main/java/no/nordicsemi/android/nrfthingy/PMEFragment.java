@@ -66,6 +66,7 @@ import static no.nordicsemi.android.nrfthingy.common.Utils.REQUEST_ENABLE_BT;
 
 /**
  * Created by dongsung on 2018-02-01.
+ * Edited by HyoungHo on 2018-08-14.
  */
 
 public class PMEFragment extends Fragment implements ScannerFragmentListener {
@@ -92,6 +93,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
     private ArrayList<String> mHistoryLog = new ArrayList<String>();
     private ArrayList<String> mFeatureLog = new ArrayList<String>();
     private static ArrayList<String> mResultLog = new ArrayList<String>();
+    private ArrayList<Integer> mTimeLog = new ArrayList<Integer>();
 
     public static String time;
 
@@ -186,28 +188,44 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
          */
 
         @Override
-        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status) {
+        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator) {
 
+            String str = null;
             mDetectionTextView.setText("Result: "+status);
-            time = new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis()));
-            mDetectionAdapter.addItem(status, "time : " + time);
-            mDetectionAdapter.notifyDataSetChanged();
-            mHistoryLog.add(status);
 
             // set the result image as status change
             // later lets make an array of picture and get image with matched index
-            if(status.equals("0"))
+            if(status.equals("0")) {
                 result_img.setImageResource(R.drawable.pme_unknown);
-            else if(status.equals("1"))
+                str = "Unknown";
+            }
+            else if(status.equals("1")) {
                 result_img.setImageResource(R.drawable.pme_sleep);
-            else if(status.equals("2"))
+                str = "Sleep";
+            }
+            else if(status.equals("2")) {
                 result_img.setImageResource(R.drawable.pme_study);
-            else if(status.equals("3"))
+                str = "Study";
+            }
+            else if(status.equals("3")) {
                 result_img.setImageResource(R.drawable.pme_phone);
-            else if(status.equals("4"))
+                str = "Phone";
+            }
+            else if(status.equals("4")) {
                 result_img.setImageResource(R.drawable.pme_eat);
-            else if(status.equals("5"))
+                str = "Eat";
+            }
+            else if(status.equals("5")) {
                 result_img.setImageResource(R.drawable.pme_walk);
+                str = "Walk";
+            }
+
+            time = new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis()));
+            mDetectionAdapter.addItem(status + " : " + str, "time : " + time);
+            mDetectionAdapter.notifyDataSetChanged();
+            mHistoryLog.add(status);
+
+
 
             // set history list view focus to the bottom
             // (set selection to the last element)
@@ -246,22 +264,27 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
         }
 
         @Override
-        public void onResultVectorValueChangedEvent(BluetoothDevice bluetoothDevice, String len, String R_0, String R_1, String R_2, String R_3
+        public void onResultVectorValueChangedEvent(BluetoothDevice bluetoothDevice, String R_0, String R_1, String R_2, String R_3
                 , String R_4, String R_5, String R_6, String R_7, String R_8, String R_9, String R_10, String R_11, String R_12, String R_13
                 , String R_14, String R_15) {
-            if (R_1 != null) {
+            Log.d("resultvector : ", "result : " + R_0 + "  " + R_1 + "  " + R_2 + " " + R_3 + "  " + R_4 + "  " + R_5 + "  " + R_6 + "  " + R_7
+                    + "  " + R_8 + "  " + R_9 + "  " + R_10 + "  " + R_11 + "  " + R_12 + "  " + R_13 + "  " + R_14 + "  " + R_15);
+            if (R_0 != null) {
 
                 time = new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis()));
-                mResultVectorAdapter.addResult(len + "  " + R_0 + "  " + R_1 + "  " + R_3 + "  " + R_4 + "  " + R_5 + "  " + R_6 + "  " + R_7
+                mResultVectorAdapter.addResult(R_0 + "  " + R_1 + "  " + R_3 + "  " + R_4 + "  " + R_5 + "  " + R_6 + "  " + R_7
                                 + "  " + R_8 + "  " + R_9 + "  " + R_10 + "  " + R_11 + "  " + R_12 + "  " + R_13 + "  " + R_14 + "  " + R_15
                         , "time : " + time);
                 mResultVectorAdapter.notifyDataSetChanged();
 
-                //Calendar cal = Calendar.getInstance();
                 mThingySdkManager.getDeviceTime(bluetoothDevice);
                 time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(System.currentTimeMillis()));
                 mResultLog.add(R_0 + "," + R_1 + "," + R_3 + "," + R_4 + "," + R_5 + "," + R_6 + "," + R_7
-                        + "," + R_8 + "," + R_9 + "," + R_10 + "," + R_11 + "," + R_12 + "," + R_13 + "," + R_14 + "," + R_15 + "," + time);
+                        + "," + R_8 + "," + R_9 + "," + R_10 + "," + R_11 + "," + R_12 + "," + R_13 + "," + R_14 + "," + R_15 + ",");
+
+                int timeLog = 0;
+                timeLog += Integer.parseInt(R_0) + (Integer.parseInt(R_1) * 256) + (Integer.parseInt(R_2) * 65536) + (Integer.parseInt(R_3) * 16777216);
+                mTimeLog.add(timeLog);
                 Log.d("PME_result_change : ", mResultLog.toString());
 
                 // set history list view focus to the bottom
@@ -495,12 +518,26 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
         Log.d("Saving_Data", "Data save start" + " Log size : " + mResultLog.size());
         time = new SimpleDateFormat("/HH-mm-ss_").format(new Date(System.currentTimeMillis()));
 
+        Calendar cal = Calendar.getInstance();
+        String year = mThingySdkManager.getDeviceYear(mDevice);
+        String month = mThingySdkManager.getDeviceMonth(mDevice);
+        String day = mThingySdkManager.getDeviceDay(mDevice);
+        String hour = mThingySdkManager.getDeviceHour(mDevice);
+        String min = mThingySdkManager.getDeviceMin(mDevice);
+
+        cal.set(Integer.getInteger(year), Integer.getInteger(month), Integer.getInteger(day), Integer.getInteger(hour), Integer.getInteger(min));
+
         try {
             fw = new FileWriter(tempDir + time + "Result.csv");
             bw = new BufferedWriter(fw);
             bw.write("MAC, ID, Activity, Vector0, Vector1, Vector2, Vector3, Vector4, Vector5, Vector6, Vector7, Vector8, Vector10, Vector11, Vector12, Vector13, Time\n");
-            for (int i = 0; i < mResultLog.size(); i++)
-                bw.write(mDevice.getAddress() + "," + mThingySdkManager.getDeviceName(mDevice) + "," + mResultLog.get(i) + "\n");
+            for (int i = 0; i < mResultLog.size(); i++) {
+                Calendar cal2 = cal;
+                cal2.add(cal2.SECOND, mTimeLog.get(i));
+                String deviceTime = cal2.get(cal2.YEAR) + "-" + cal2.get(cal2.MONTH) + "-" + cal2.get(cal2.DAY_OF_MONTH) + " " + cal2.get(cal2.HOUR) + ":" + cal2.get(cal2.MINUTE) + ":" + cal2.get(cal2.SECOND);
+                bw.write(mDevice.getAddress() + "," + mThingySdkManager.getDeviceName(mDevice) + "," + mResultLog.get(i) + deviceTime + "\n");
+            }
+
             bw.close();
             fw.close();
 

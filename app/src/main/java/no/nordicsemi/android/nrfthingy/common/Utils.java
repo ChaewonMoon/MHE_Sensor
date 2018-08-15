@@ -118,6 +118,11 @@ public class Utils {
 
     public static final String ENVIRONMENT_FRAGMENT = "ENVIRONMENT_FRAGMENT";
     public static final String PME_FRAGMENT = "PME_FRAGMENT";
+    public static final String PET_FRAGMENT = "PET_FRAGMENT";
+
+    public static final String HALLA_FRAGMENT = "HALLA_FRAGMENT";
+    public static final String SOJU_FRAGMENT = "SOJU_FRAGMENT";
+    public static final String INS_FRAGMENT = "INS_FRAGMENT";
     public static final String PME_RESULT = "PME_RESULT";
     public static final String PME_FUSION = "PME_FUSION";
     public static final String RECEIVE_FRAGMENT = "RECEIVE_FRAGMENT";

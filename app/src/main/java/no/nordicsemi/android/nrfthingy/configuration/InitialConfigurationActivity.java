@@ -267,7 +267,7 @@ public class InitialConfigurationActivity extends AppCompatActivity implements S
         }
 
         @Override
-        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status){
+        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator){
 
         }
 
@@ -277,12 +277,9 @@ public class InitialConfigurationActivity extends AppCompatActivity implements S
         }
 
         @Override
-        public void onResultVectorValueChangedEvent(BluetoothDevice bluetoothDevice, String len, String R_0, String R_1, String R_2, String R_3
-                , String R_4, String R_5, String R_6, String R_7, String R_8, String R_9, String R_10, String R_11, String R_12, String R_13
-                , String R_14, String R_15) {
+        public void onResultVectorValueChangedEvent(BluetoothDevice bluetoothDevice, String R_0, String R_1, String R_2, String R_3, String R_4, String R_5, String R_6, String R_7, String R_8, String R_9, String R_10, String R_11, String R_12, String R_13, String R_14, String R_15) {
 
         }
-
 
         @Override
         public void onAccelerometerValueChangedEvent(BluetoothDevice bluetoothDevice, float accelerometerX, float accelerometerY, float accelerometerZ) {
@@ -369,20 +366,20 @@ public class InitialConfigurationActivity extends AppCompatActivity implements S
 
         mScrollView = findViewById(R.id.scroll_view);
 
-        mDeviceInfo = findViewById(R.id.device_name);
+        //mDeviceInfo = findViewById(R.id.device_name);
         mNfcContainer = findViewById(R.id.nfc_container);
         final TextView mEnableNfc = findViewById(R.id.enable_nfc);
         final TextView mNfcMore = findViewById(R.id.dismiss_nfc);
         mConfirmThingy = findViewById(R.id.confirm_thingy);
-        mConfirmDeviceName = findViewById(R.id.confirm_device_name);
-        mSkipDeviceName = findViewById(R.id.skip_device_name);
+        //mConfirmDeviceName = findViewById(R.id.confirm_device_name);
+        //mSkipDeviceName = findViewById(R.id.skip_device_name);
         mGetStarted = findViewById(R.id.get_started);
 
         mStepOne = findViewById(R.id.step_one);
-        mStepTwo = findViewById(R.id.step_two);
+        //mStepTwo = findViewById(R.id.step_two);
         mStepOneSummary = findViewById(R.id.step_one_summary);
-        mView = findViewById(R.id.vertical_line);
-        mSpace = findViewById(R.id.space);
+        //mView = findViewById(R.id.vertical_line);
+        //mSpace = findViewById(R.id.space);
 
         loadNfcAdapter();
 
@@ -415,13 +412,14 @@ public class InitialConfigurationActivity extends AppCompatActivity implements S
             }
         });
 
+        /*
         mStepTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 animateOnStepTwoComplete();
             }
         });
-
+*/
         mConfirmThingy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -457,6 +455,7 @@ public class InitialConfigurationActivity extends AppCompatActivity implements S
             }
         });
 
+        /*
         mConfirmDeviceName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -470,14 +469,14 @@ public class InitialConfigurationActivity extends AppCompatActivity implements S
                 animateStepTwo();
             }
         });
-
+*/
         mGetStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getStarted();
             }
         });
-
+/*
         mDeviceInfo.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -495,12 +494,12 @@ public class InitialConfigurationActivity extends AppCompatActivity implements S
             public void afterTextChanged(Editable s) {
             }
         });
-
+*/
         if (savedInstanceState != null) {
             mProgressDialog = (ProgressDialogFragment) getSupportFragmentManager().findFragmentByTag(Utils.PROGRESS_DIALOG_TAG);
             mDevice = savedInstanceState.getParcelable(Utils.EXTRA_DEVICE);
             mStepOneComplete = savedInstanceState.getBoolean("Step1", false);
-            mStepTwoComplete = savedInstanceState.getBoolean("Step2", false);
+            //mStepTwoComplete = savedInstanceState.getBoolean("Step2", false);
             mAddressNfc = savedInstanceState.getString("ADDRESS_FOR_NFC");
             if(mProgressDialog != null){
                 if(savedInstanceState.getBoolean("IS_SCANNING")) {
@@ -513,10 +512,11 @@ public class InitialConfigurationActivity extends AppCompatActivity implements S
                 mConfirmThingy.setText(R.string.disconnect_connect);
                 animateStepOne();
             }
-
+            /*
             if (mStepTwoComplete) {
                 animateStepTwo();
             }
+            */
         }
 
         registerReceiver(mLocationProviderChangedReceiver, new IntentFilter(LocationManager.MODE_CHANGED_ACTION));
@@ -726,7 +726,7 @@ public class InitialConfigurationActivity extends AppCompatActivity implements S
     private void animateStepOne() {
         mStepOne.setText("");
         mStepOne.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(InitialConfigurationActivity.this, R.drawable.ic_done_white), null, null, null);
-        mStepTwo.setBackground(ContextCompat.getDrawable(InitialConfigurationActivity.this, R.drawable.ic_blue_bg));
+//        mStepTwo.setBackground(ContextCompat.getDrawable(InitialConfigurationActivity.this, R.drawable.ic_blue_bg));
         mThingyInfoContainer.animate()
                 .translationX(mThingyInfoContainer.getHeight())
                 .alpha(0.0f)
@@ -736,18 +736,20 @@ public class InitialConfigurationActivity extends AppCompatActivity implements S
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
                         mThingyInfoContainer.setVisibility(View.GONE);
-                        mDeviceNameContainer.setVisibility(View.VISIBLE);
+                        //mDeviceNameContainer.setVisibility(View.VISIBLE);
 
                         //Resetting the animation parameters, if not the views are not visible in case they are made visible
                         mThingyInfoContainer.setAlpha(1.0f);
                         mThingyInfoContainer.setTranslationX(0);
                         mThingyInfoContainer.clearAnimation();
+                        mSetupCompleteContainer.setVisibility(View.VISIBLE);
                     }
                 });
 
         mStepOneComplete = true;
     }
 
+    /*
     private void animateStepTwo() {
         mStepTwoComplete = true;
         mStepTwo.setText("");
@@ -782,7 +784,7 @@ public class InitialConfigurationActivity extends AppCompatActivity implements S
                     }
                 });
     }
-
+*/
     private void animateOnStepOneComplete() {
         if (mStepOneComplete) {
             mThingyInfoContainer.setVisibility(View.VISIBLE);
@@ -827,7 +829,7 @@ public class InitialConfigurationActivity extends AppCompatActivity implements S
             }
         }
     }
-
+/*
     private void animateOnStepTwoComplete() {
         if (mDevice != null) {
             final Thingy thingy = new Thingy(mDevice);
@@ -881,7 +883,7 @@ public class InitialConfigurationActivity extends AppCompatActivity implements S
             Utils.showToast(InitialConfigurationActivity.this, getString(R.string.no_thingy_connected_step_one));
         }
     }
-
+*/
     private void getStarted() {
 
         if (!Utils.isAppInitialisedBefore(this)) {

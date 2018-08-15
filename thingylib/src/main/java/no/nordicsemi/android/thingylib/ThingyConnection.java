@@ -225,23 +225,33 @@ public class ThingyConnection extends BluetoothGattCallback {
 
     public boolean dataCheck() {
         String s = "AA";
-        byte[] data = new byte[]{(byte)0xAA, (byte)0xAA};
-        add(RequestType.WRITE_CHARACTERISTIC, mTimeCharacteristic, data, BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
-        //mDataCheckCharacteristic.setValue(data);
+        byte[] data = new byte[]{(byte)170, (byte)170};
+        //add(RequestType.WRITE_CHARACTERISTIC, mDataCheckCharacteristic, data, BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
+        mDataCheckCharacteristic.setValue(data);
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        add(RequestType.READ_CHARACTERISTIC, mDataCheckCharacteristic);
-        String result = mDataCheckCharacteristic.getStringValue(0);
-        //int result1 = mDataCheckCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 0);
-        //int result2 = mDataCheckCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 1);
-        Log.d("data Check : ", result + " " + data);
-        //if(result1 + result2 == 0)
-        //    return false;
-        //else
+
+        int i = 20000000;
+        while(i >= 0) {
+            i--;
+            int result1 = mDataCheckCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
+            int result2 = mDataCheckCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 1);
+            if(result1 != 170 && result2 != 170) {
+                Log.d("while : ", "break");
+                break;
+            }
+        }
+        //String result = mDataCheckCharacteristic.getStringValue(0);
+        int result1 = mDataCheckCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
+        int result2 = mDataCheckCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 1);
+        Log.d("data Check : ", result1 + " " + result2 + " " + data[0] + " " + data[1]);
+        if(result1 + result2 == 0)
             return false;
+        else
+            return true;
     }
 
     public void setTime() {
@@ -312,16 +322,6 @@ public class ThingyConnection extends BluetoothGattCallback {
         void onDeviceDisconnected(BluetoothDevice device, int connectionState);
     }
 
-    BluetoothGattCharacteristic characteristic;
-    public void download_on() {
-        Log.d("characteristic", "try characteristic change");
-        characteristic.setValue(new byte[] { (byte) 0x01 });
-    }
-    public void download_off() {
-        Log.d("characteristic", "successfully sended");
-        characteristic.setValue(new byte[] { (byte) 0x00 });
-    }
-
     @Override
     public final void onConnectionStateChange(final BluetoothGatt gatt, int status, int newState) {
         if (status != BluetoothGatt.GATT_SUCCESS) {
@@ -383,14 +383,6 @@ public class ThingyConnection extends BluetoothGattCallback {
             return;
         } else
             Log.d("device", "Dis service found!");
-
-        characteristic = disService.getCharacteristic(ThingyUtils.RESULT_VECTOR_CHARACTERISTIC);
-        if (characteristic == null) {
-            Log.d("characteristic", "charateristic not found!");
-            return;
-        } else
-            Log.d("characteristic", "charateristic found!");
-
 
         mThingyConfigurationService = gatt.getService(ThingyUtils.THINGY_CONFIGURATION_SERVICE);
         if (mThingyConfigurationService != null) {
@@ -502,6 +494,7 @@ public class ThingyConnection extends BluetoothGattCallback {
 
             final Intent intent = new Intent(ThingyUtils.CLASSIFICATION_NOTIFICATION);
             intent.putExtra(ThingyUtils.EXTRA_DEVICE, mBluetoothDevice);
+            intent.putExtra(ThingyUtils.EXTRA_INDICATOR, String.valueOf(mClassificationInt1));
             intent.putExtra(ThingyUtils.EXTRA_DATA, String.valueOf(mClassificationInt3));
             LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
 
@@ -539,10 +532,11 @@ public class ThingyConnection extends BluetoothGattCallback {
             final int mResultVector13 = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 14);
             final int mResultVector14 = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 15);
 //            final int mResultVector15 = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 16);
-            /*
-            Log.d("PME_RESULT_history: ",  mResultVector0 + " " + mResultVector1 + " " + mResultVector2 + " " + mResultVector3 + " " + mResultVector4
+/*
+            Log.d("PME_RESULT_history: ",  vectorLength + " " + mResultVector0 + " " + mResultVector1 + " " + mResultVector2 + " " + mResultVector3 + " " + mResultVector4
                     + " " + mResultVector5 + " " + mResultVector6 + " " + mResultVector7 + " " + mResultVector8 + " " + mResultVector9 + " " + mResultVector10
-                    + " " + mResultVector11 + " " + mResultVector12 + " " + mResultVector13 + " " + mResultVector14 + " " + mResultVector14);*/
+                    + " " + mResultVector11 + " " + mResultVector12 + " " + mResultVector13 + " " + mResultVector14 + " " + mResultVector14);
+                    */
             final Intent intent = new Intent(ThingyUtils.RESULTVECTOR_NOTIFICATION);
             intent.putExtra(ThingyUtils.EXTRA_DEVICE, mBluetoothDevice);
             intent.putExtra(ThingyUtils.EXTRA_DATA_VECTORLENGTH, String.valueOf(vectorLength));
@@ -1218,10 +1212,10 @@ public class ThingyConnection extends BluetoothGattCallback {
             if (mTimeCharacteristic != null) {
                 add(RequestType.READ_CHARACTERISTIC, mTimeCharacteristic);
             }
-/*
+
             if (mDataCheckCharacteristic != null) {
                 add(RequestType.READ_CHARACTERISTIC, mDataCheckCharacteristic);
-            }*/
+            }
         }
 
         if(mBatteryLevelCharacteristic != null) {
@@ -1264,6 +1258,8 @@ public class ThingyConnection extends BluetoothGattCallback {
         add(RequestType.READ_DESCRIPTOR, mClassificationCharacteristic.getDescriptor(ThingyUtils.CLIENT_CHARACTERISTIC_CONFIGURATOIN_DESCRIPTOR));
         add(RequestType.READ_DESCRIPTOR, mFeatureVectorCharacteristic.getDescriptor(ThingyUtils.CLIENT_CHARACTERISTIC_CONFIGURATOIN_DESCRIPTOR));
         add(RequestType.READ_DESCRIPTOR, mResultVectorCharacteristic.getDescriptor(ThingyUtils.CLIENT_CHARACTERISTIC_CONFIGURATOIN_DESCRIPTOR));
+        add(RequestType.READ_DESCRIPTOR, mDataCheckCharacteristic.getDescriptor(ThingyUtils.CLIENT_CHARACTERISTIC_CONFIGURATOIN_DESCRIPTOR));
+        add(RequestType.READ_DESCRIPTOR, mTimeCharacteristic.getDescriptor(ThingyUtils.CLIENT_CHARACTERISTIC_CONFIGURATOIN_DESCRIPTOR));
 
         add(RequestType.READ_CHARACTERISTIC, mSoundConfigurationCharacteristic);
         add(RequestType.READ_DESCRIPTOR, mSpeakerStatusCharacteristic.getDescriptor(ThingyUtils.CLIENT_CHARACTERISTIC_CONFIGURATOIN_DESCRIPTOR));

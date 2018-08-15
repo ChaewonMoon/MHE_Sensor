@@ -359,7 +359,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         @Override
-        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status){
+        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator){
 
         }
 
@@ -380,7 +380,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         @Override
-        public void onResultVectorValueChangedEvent(BluetoothDevice bluetoothDevice, String len, String R_0, String R_1, String R_2, String R_3
+        public void onResultVectorValueChangedEvent(BluetoothDevice bluetoothDevice, String R_0, String R_1, String R_2, String R_3
                 , String R_4, String R_5, String R_6, String R_7, String R_8, String R_9, String R_10, String R_11, String R_12, String R_13
                 , String R_14, String R_15) {
 
@@ -973,8 +973,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     clearFragments(fragmentTag);
                     mFragmentTag = Utils.PME_RESULT;
 
-                    ResultFragment resultFragment = ResultFragment.newInstance(mConnectedBleDeviceList);
-                    getSupportFragmentManager().beginTransaction().add(R.id.container, resultFragment, mFragmentTag).commit();
+                    PetFragment petFragment = PetFragment.newInstance(mDevice);
+                    getSupportFragmentManager().beginTransaction().add(R.id.container, petFragment, mFragmentTag).commit();
                 }
                 break;
             case R.id.navigation_instrument: //MHE// 원래 없던건데 센서 리스트들 표시를 위해 사용
@@ -1379,6 +1379,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 */
             case Utils.PME_FRAGMENT:
                 checkSelection(mNavigationView.getMenu().findItem(R.id.navigation_pme));
+                break;
+            case Utils.PET_FRAGMENT:
+                checkSelection(mNavigationView.getMenu().findItem(R.id.navigation_pet));
+                break;
+            case Utils.PME_FUSION:
+                checkSelection(mNavigationView.getMenu().findItem(R.id.navigation_fusion));
+                break;
+            case Utils.HALLA_FRAGMENT:
+                checkSelection(mNavigationView.getMenu().findItem(R.id.navigation_hallabong));
+                break;
+            case Utils.SOJU_FRAGMENT:
+                checkSelection(mNavigationView.getMenu().findItem(R.id.navigation_sojucup));
+                break;
+            case Utils.INS_FRAGMENT:
+                checkSelection(mNavigationView.getMenu().findItem(R.id.navigation_instrument));
                 break;
                 /*
             case Utils.RECEIVE_FRAGMENT:

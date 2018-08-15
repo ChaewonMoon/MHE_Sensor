@@ -75,11 +75,11 @@ public interface ThingyListener  {
     void onPedometerValueChangedEvent(final BluetoothDevice bluetoothDevice,final int steps, final long duration);
 
     void onAccelerometerValueChangedEvent(final BluetoothDevice bluetoothDevice, final float accelerometerX, final float accelerometerY, final float accelerometerZ);
-    //MHE//pmefragment 에서 사용합니다.
-    void onKnowledgePackValueChangedEvent(final BluetoothDevice bluetoothDevice, final String status);
+    //MHE//petfragment 에서 사용합니다.
+    void onKnowledgePackValueChangedEvent(final BluetoothDevice bluetoothDevice, final String status, final String indicator);
     //MHE//pmefragment 에서 사용합니다.
     void onFeatureVectorValueChangedEvent(final BluetoothDevice bluetoothDevice, final String len, final String x, final String y, final String z);
-    void onResultVectorValueChangedEvent(final BluetoothDevice bluetoothDevice, final String len, final String R_0, final String R_1, final String R_2
+    void onResultVectorValueChangedEvent(final BluetoothDevice bluetoothDevice, final String R_0, final String R_1, final String R_2
             , final String R_3, final String R_4, final String R_5, final String R_6, final String R_7, final String R_8, final String R_9
             , final String R_10, final String R_11, final String R_12, final String R_13, final String R_14, final String R_15);
     //MHE//원래 onAccelerometer와 onGyroscope를 합쳤습니다.

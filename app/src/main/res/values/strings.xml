@@ -61,7 +61,7 @@
     <string name="dev_name_info">MHE name</string>
     <string name="dev_name_info_summary">Give a name to your MHE (optional)</string>
     <string name="user_info">User information</string>
-    <string name="connect_thingy_summary">Click to scan or touch MHE with the back of your smart phone to connect via NFC</string>
+    <string name="connect_thingy_summary">Click to scan or touch MHE with the back of your smart phone</string>
     <string name="user_info_hint">Name</string>
     <string name="email_info">Email information</string>
     <string name="email">Email</string>
@@ -214,9 +214,9 @@
     <string name="quaternion_title">3D</string>
     <string name="motion_title">Motion</string>
     <string name="sound_title">Sound</string>
-    <string name="pme_title">PME</string>
+    <string name="pme_title">Study</string>
     <string name="pme_result_title">PME LIST</string>
-    <string name="pme_fusion">PME FUSION</string>
+    <string name="pme_fusion">Dragon Ball</string>
     <string name="speaker_title">Speaker</string>
     <string name="microphone_title">Microphone</string>
     <string name="welcome_title">Welcome to MHE</string>
@@ -242,7 +242,7 @@
     <string name="featurevector_title">FeatureVector</string>
     <string name="featurereceive_title">Receive</string>
     <string name="resultvector_title">ResultVector</string>
-
+    <string name="flash_result_title">PME flash result</string>
     <string name="pressure_title">Pressure</string>
     <string name="humidity_title">Humidity</string>
     <string name="air_quality_title">Air quality</string>

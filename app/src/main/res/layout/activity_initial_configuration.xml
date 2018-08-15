@@ -239,7 +239,7 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-
+<!--
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -355,6 +355,7 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+                -->
             </LinearLayout>
 
             <LinearLayout

@@ -160,12 +160,13 @@ public class ThingyListenerHelper {
                     break;
                 case ThingyUtils.CLASSIFICATION_NOTIFICATION:
                     Log.d("TLH", "classification notified");
+                    final String indicator = intent.getExtras().getString(ThingyUtils.EXTRA_INDICATOR);
                     final String classification = intent.getExtras().getString(ThingyUtils.EXTRA_DATA);
                     if (globalListener != null) {
-                        globalListener.onKnowledgePackValueChangedEvent(device, classification);
+                        globalListener.onKnowledgePackValueChangedEvent(device, classification, indicator);
                     }
                     if (thingyListener != null) {
-                        thingyListener.onKnowledgePackValueChangedEvent(device, classification);
+                        thingyListener.onKnowledgePackValueChangedEvent(device, classification, indicator);
                     }
                 case ThingyUtils.FEATUREVECTOR_NOTIFICATION:
                     final String vectorLength = intent.getExtras().getString(ThingyUtils.EXTRA_DATA_VECTORLENGTH);
@@ -197,7 +198,7 @@ public class ThingyListenerHelper {
                     final String feature_12_R = intent.getExtras().getString(ThingyUtils.EXTRA_DATA_RESULTVECTOR_12);
                     final String feature_13_R = intent.getExtras().getString(ThingyUtils.EXTRA_DATA_RESULTVECTOR_13);
                     final String feature_14_R = intent.getExtras().getString(ThingyUtils.EXTRA_DATA_RESULTVECTOR_14);
-                    final String feature_15_R = intent.getExtras().getString(ThingyUtils.EXTRA_DATA_RESULTVECTOR_15);
+                    //final String feature_15_R = intent.getExtras().getString(ThingyUtils.EXTRA_DATA_RESULTVECTOR_15);
                     /*
                     Log.d("PME_result_history: ", vectorLength_R + " " + feature_0_R + " " + feature_1_R + " " + feature_2_R + " " + feature_3_R
                             + " " + feature_4_R + " " + feature_5_R + " " + feature_6_R + " " + feature_7_R + " " + feature_8_R + " " + feature_9_R + " " + feature_10_R
@@ -206,12 +207,12 @@ public class ThingyListenerHelper {
                     if (globalListener != null) {
                         globalListener.onResultVectorValueChangedEvent(device, vectorLength_R, feature_0_R, feature_1_R, feature_2_R
                                 , feature_3_R, feature_4_R, feature_5_R, feature_6_R, feature_7_R, feature_8_R, feature_9_R, feature_10_R, feature_11_R
-                                , feature_12_R, feature_13_R, feature_14_R, feature_15_R);
+                                , feature_12_R, feature_13_R, feature_14_R);
                     }
                     if (thingyListener != null) {
                         thingyListener.onResultVectorValueChangedEvent(device, vectorLength_R, feature_0_R, feature_1_R, feature_2_R
                                 , feature_3_R, feature_4_R, feature_5_R, feature_6_R, feature_7_R, feature_8_R, feature_9_R, feature_10_R, feature_11_R
-                                , feature_12_R, feature_13_R, feature_14_R, feature_15_R);
+                                , feature_12_R, feature_13_R, feature_14_R);
                     }
                 case ThingyUtils.PRESSURE_NOTIFICATION:
                     final String pressure = intent.getExtras().getString(ThingyUtils.EXTRA_DATA);
