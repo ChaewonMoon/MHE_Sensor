@@ -125,6 +125,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -236,12 +237,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void downloadBT_clicked(View v) {
         Toast.makeText(getApplicationContext(), "DATA Down Start", Toast.LENGTH_LONG).show();
 
+        mThingySdkManager.enableResultVectorNotifications(mDevice, true);
+        Toast.makeText(getApplicationContext(), "DATA Down Finish", Toast.LENGTH_LONG).show();
+        /*
         if(mThingySdkManager.dataCheck(mDevice)) {
             mThingySdkManager.enableResultVectorNotifications(mDevice, true);
             Toast.makeText(getApplicationContext(), "DATA Down Finish", Toast.LENGTH_LONG).show();
         }
         else
             Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_LONG).show();
+            */
     }
 
     private ThingyListener mThingyListener = new ThingyListener() {
@@ -385,7 +390,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 , String R_14, String R_15) {
 
         }
-
 
         @Override
         public void onCompassValueChangedEvent(final BluetoothDevice bluetoothDevice, final float x, final float y, final float z) {
@@ -924,7 +928,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.navigation_hallabong: //MHE// 원래 없던건데 센서 리스트들 표시를 위해 사용
-                if (fragmentManager.findFragmentByTag(Utils.PME_RESULT) == null) {
+                if (fragmentManager.findFragmentByTag(Utils.HALLA_FRAGMENT) == null) {
                     if (mThingySdkManager.isConnected(mDevice)) {
                         mThingySdkManager.enableEnvironmentNotifications(mDevice, false);
                         mThingySdkManager.enableMotionNotifications(mDevice, false);
@@ -935,14 +939,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     final String fragmentTag = mFragmentTag;
                     clearFragments(fragmentTag);
-                    mFragmentTag = Utils.PME_RESULT;
+                    mFragmentTag = Utils.HALLA_FRAGMENT;
 
-                    ResultFragment resultFragment = ResultFragment.newInstance(mConnectedBleDeviceList);
-                    getSupportFragmentManager().beginTransaction().add(R.id.container, resultFragment, mFragmentTag).commit();
+                    HallaBongFragment hallaBongFragment = HallaBongFragment.newInstance(mConnectedBleDeviceList);
+                    getSupportFragmentManager().beginTransaction().add(R.id.container, hallaBongFragment, mFragmentTag).commit();
                 }
                 break;
             case R.id.navigation_sojucup: //MHE// 원래 없던건데 센서 리스트들 표시를 위해 사용
-                if (fragmentManager.findFragmentByTag(Utils.PME_RESULT) == null) {
+                if (fragmentManager.findFragmentByTag(Utils.SOJU_FRAGMENT) == null) {
                     if (mThingySdkManager.isConnected(mDevice)) {
                         mThingySdkManager.enableEnvironmentNotifications(mDevice, false);
                         mThingySdkManager.enableMotionNotifications(mDevice, false);
@@ -953,10 +957,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     final String fragmentTag = mFragmentTag;
                     clearFragments(fragmentTag);
-                    mFragmentTag = Utils.PME_RESULT;
+                    mFragmentTag = Utils.SOJU_FRAGMENT;
 
-                    ResultFragment resultFragment = ResultFragment.newInstance(mConnectedBleDeviceList);
-                    getSupportFragmentManager().beginTransaction().add(R.id.container, resultFragment, mFragmentTag).commit();
+                    SojuCupFragment sojuFragment = SojuCupFragment.newInstance(mConnectedBleDeviceList);
+                    getSupportFragmentManager().beginTransaction().add(R.id.container, sojuFragment, mFragmentTag).commit();
                 }
                 break;
             case R.id.navigation_pet: //MHE// 원래 없던건데 센서 리스트들 표시를 위해 사용
@@ -1084,12 +1088,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.navigation_reset:
+
                 mThingySdkManager.isFirst = true;
                 if(mThingySdkManager.isFirst) {
                     mThingySdkManager.setDeviceTime(mDevice);
                     mThingySdkManager.enableResultVectorNotifications(mDevice, true);
                     Log.d("Device time", " : " + mThingySdkManager.getDeviceTime(mDevice));
                 }
+
+                /*
+                Log.d("Device time", " : " + mThingySdkManager.getDeviceTime(mDevice));
+                Calendar cal = Calendar.getInstance();
+                int year = mThingySdkManager.getDeviceYear(mDevice);
+                int month = mThingySdkManager.getDeviceMonth(mDevice);
+                int day = mThingySdkManager.getDeviceDay(mDevice);
+                int hour = mThingySdkManager.getDeviceHour(mDevice);
+                int min = mThingySdkManager.getDeviceMin(mDevice);
+
+                Log.d("Device time : ", year + " " + month + " " + day + " " + hour + " " + min);
+
+                cal.set(year, month, day, hour, min);
+
+                Log.d("CAL : " , " " + cal);
+                */
                 break;
             /*case R.id.navigation_cloud: //MHE// 사용하지 않는 fragment 입니다.
                 if (fragmentManager.findFragmentByTag(Utils.CLOUD_FRAGMENT) == null) {
@@ -2320,4 +2341,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onNfcWarningDismissed() {
         mNfcContainer.setVisibility(View.GONE);
     }
+
 }

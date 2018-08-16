@@ -269,35 +269,37 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
                 , String R_14, String R_15) {
             Log.d("resultvector : ", "result : " + R_0 + "  " + R_1 + "  " + R_2 + " " + R_3 + "  " + R_4 + "  " + R_5 + "  " + R_6 + "  " + R_7
                     + "  " + R_8 + "  " + R_9 + "  " + R_10 + "  " + R_11 + "  " + R_12 + "  " + R_13 + "  " + R_14 + "  " + R_15);
-            if (R_0 != null) {
+            if (R_1 != null) {
 
                 time = new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis()));
-                mResultVectorAdapter.addResult(R_0 + "  " + R_1 + "  " + R_3 + "  " + R_4 + "  " + R_5 + "  " + R_6 + "  " + R_7
+                mResultVectorAdapter.addResult(R_1 + "  " + R_2 + "  " + R_3 + "  " + R_4 + "  " + R_5 + "  " + R_6 + "  " + R_7
                                 + "  " + R_8 + "  " + R_9 + "  " + R_10 + "  " + R_11 + "  " + R_12 + "  " + R_13 + "  " + R_14 + "  " + R_15
                         , "time : " + time);
                 mResultVectorAdapter.notifyDataSetChanged();
 
                 mThingySdkManager.getDeviceTime(bluetoothDevice);
                 time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(System.currentTimeMillis()));
-                mResultLog.add(R_0 + "," + R_1 + "," + R_3 + "," + R_4 + "," + R_5 + "," + R_6 + "," + R_7
+                mResultLog.add(R_1 + "," + R_2 + "," + R_3 + "," + R_4 + "," + R_5 + "," + R_6 + "," + R_7
                         + "," + R_8 + "," + R_9 + "," + R_10 + "," + R_11 + "," + R_12 + "," + R_13 + "," + R_14 + "," + R_15 + ",");
 
-                int timeLog = 0;
-                timeLog += Integer.parseInt(R_0) + (Integer.parseInt(R_1) * 256) + (Integer.parseInt(R_2) * 65536) + (Integer.parseInt(R_3) * 16777216);
-                mTimeLog.add(timeLog);
+                //int timeLog = 0;
+                //timeLog += Integer.parseInt(R_0) + (Integer.parseInt(R_1) * 256) + (Integer.parseInt(R_2) * 65536) + (Integer.parseInt(R_3) * 16777216);
+                //mTimeLog.add(timeLog);
                 Log.d("PME_result_change : ", mResultLog.toString());
 
                 // set history list view focus to the bottom
                 // (set selection to the last element)
                 mResultVectorView.setSelection(mResultVectorAdapter.getCount() - 1);
 
-                if(mThingySdkManager.isFirst && mResultLog.size() == 1) {
-                    Log.d("RESULT : ", "is first time");
-                    mThingySdkManager.isFirst = false;
-                    mCheckConnection.execute();
+                if(mResultLog.size() == 1) {
+                    if (mThingySdkManager.isFirst) {
+                        Log.d("RESULT : ", "is first time");
+                        mThingySdkManager.isFirst = false;
+                        mCheckConnection.execute();
+                    } else if (!isRun)
+                        Log.d("RESULT : ", "mCheckReceive execute");
+                        mCheckReceive.execute();
                 }
-                else if(!isRun && mResultLog.size() == 1)
-                    mCheckReceive.execute();
             }
             else {
                 mThingySdkManager.enableResultVectorNotifications(mDevice, false);
@@ -519,21 +521,23 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
         time = new SimpleDateFormat("/HH-mm-ss_").format(new Date(System.currentTimeMillis()));
 
         Calendar cal = Calendar.getInstance();
-        String year = mThingySdkManager.getDeviceYear(mDevice);
-        String month = mThingySdkManager.getDeviceMonth(mDevice);
-        String day = mThingySdkManager.getDeviceDay(mDevice);
-        String hour = mThingySdkManager.getDeviceHour(mDevice);
-        String min = mThingySdkManager.getDeviceMin(mDevice);
+        int year = mThingySdkManager.getDeviceYear(mDevice);
+        int month = mThingySdkManager.getDeviceMonth(mDevice);
+        int day = mThingySdkManager.getDeviceDay(mDevice);
+        int hour = mThingySdkManager.getDeviceHour(mDevice);
+        int min = mThingySdkManager.getDeviceMin(mDevice);
 
-        cal.set(Integer.getInteger(year), Integer.getInteger(month), Integer.getInteger(day), Integer.getInteger(hour), Integer.getInteger(min));
+        Log.d("Device time : ", year + " " + month + " " + day + " " + hour + " " + min);
 
+        cal.set(year, month, day, hour, min);
+        Calendar cal2 = cal;
         try {
             fw = new FileWriter(tempDir + time + "Result.csv");
             bw = new BufferedWriter(fw);
             bw.write("MAC, ID, Activity, Vector0, Vector1, Vector2, Vector3, Vector4, Vector5, Vector6, Vector7, Vector8, Vector10, Vector11, Vector12, Vector13, Time\n");
             for (int i = 0; i < mResultLog.size(); i++) {
-                Calendar cal2 = cal;
-                cal2.add(cal2.SECOND, mTimeLog.get(i));
+                //Calendar cal2 = cal;
+                cal2.add(cal2.SECOND, 60);
                 String deviceTime = cal2.get(cal2.YEAR) + "-" + cal2.get(cal2.MONTH) + "-" + cal2.get(cal2.DAY_OF_MONTH) + " " + cal2.get(cal2.HOUR) + ":" + cal2.get(cal2.MINUTE) + ":" + cal2.get(cal2.SECOND);
                 bw.write(mDevice.getAddress() + "," + mThingySdkManager.getDeviceName(mDevice) + "," + mResultLog.get(i) + deviceTime + "\n");
             }
@@ -784,7 +788,6 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
         protected Integer doInBackground(Integer... integers) {
             int size = 0;
             isRun = true;
-
             try {
                 while(true)
                 {
@@ -794,6 +797,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
                         ThingySdkManager mThingySdkManager = ThingySdkManager.getInstance();
                         mThingySdkManager.enableResultVectorNotifications(mDevice, false);
                         saveData();
+                        mThingySdkManager.setDeviceTime(mDevice);
                         isRun = false;
 
                         Log.e("CW","uploadBT");

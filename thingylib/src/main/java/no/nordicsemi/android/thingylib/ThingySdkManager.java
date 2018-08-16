@@ -150,7 +150,7 @@ public class ThingySdkManager {
         return "NONE";
     }
 
-    public String getDeviceYear(BluetoothDevice device) {
+    public Integer getDeviceYear(BluetoothDevice device) {
         if(device != null) {
             if (mBinder != null) {
                 final ThingyConnection thingyConnection = mBinder.getThingyConnection(device);
@@ -159,10 +159,10 @@ public class ThingySdkManager {
                 }
             }
         }
-        return "NONE";
+        return 2018;
     }
 
-    public String getDeviceMonth(BluetoothDevice device) {
+    public Integer getDeviceMonth(BluetoothDevice device) {
         if(device != null) {
             if (mBinder != null) {
                 final ThingyConnection thingyConnection = mBinder.getThingyConnection(device);
@@ -171,10 +171,10 @@ public class ThingySdkManager {
                 }
             }
         }
-        return "NONE";
+        return 01;
     }
 
-    public String getDeviceDay(BluetoothDevice device) {
+    public Integer getDeviceDay(BluetoothDevice device) {
         if(device != null) {
             if (mBinder != null) {
                 final ThingyConnection thingyConnection = mBinder.getThingyConnection(device);
@@ -183,10 +183,10 @@ public class ThingySdkManager {
                 }
             }
         }
-        return "NONE";
+        return 01;
     }
 
-    public String getDeviceHour(BluetoothDevice device) {
+    public Integer getDeviceHour(BluetoothDevice device) {
         if(device != null) {
             if (mBinder != null) {
                 final ThingyConnection thingyConnection = mBinder.getThingyConnection(device);
@@ -195,10 +195,10 @@ public class ThingySdkManager {
                 }
             }
         }
-        return "NONE";
+        return 00;
     }
 
-    public String getDeviceMin(BluetoothDevice device) {
+    public Integer getDeviceMin(BluetoothDevice device) {
         if(device != null) {
             if (mBinder != null) {
                 final ThingyConnection thingyConnection = mBinder.getThingyConnection(device);
@@ -207,7 +207,7 @@ public class ThingySdkManager {
                 }
             }
         }
-        return "NONE";
+        return 00;
     }
 
     /**

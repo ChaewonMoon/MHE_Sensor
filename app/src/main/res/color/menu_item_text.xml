@@ -37,7 +37,7 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="true" android:color="@color/colorPrimaryDark" />
+    <item android:state_checked="true" android:color="@color/holo_purple" />
     <item android:state_activated="true" android:color="@color/colorRed" />
     <item android:state_selected="true" android:color="@color/textColorWhite" />
     <item android:color="#FF212121" />

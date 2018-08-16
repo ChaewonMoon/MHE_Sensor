@@ -70,7 +70,7 @@
         <item
             android:id="@+id/navigation_sojucup"
             android:checked="false"
-            android:icon="@drawable/ic_pme"
+            android:icon="@drawable/ic_soju"
             android:title="Soju Cup" />
         <item
             android:id="@+id/navigation_pet"
@@ -80,12 +80,12 @@
         <item
             android:id="@+id/navigation_pme"
             android:checked="false"
-            android:icon="@drawable/ic_pme"
+            android:icon="@drawable/ic_study"
             android:title="@string/pme_title" />
         <item
             android:id="@+id/navigation_instrument"
             android:checked="false"
-            android:icon="@drawable/ic_pme"
+            android:icon="@drawable/ic_instrument"
             android:title="Instrument" />
         <item
             android:id="@+id/navigation_fusion"

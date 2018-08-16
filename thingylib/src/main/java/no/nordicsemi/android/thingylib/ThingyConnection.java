@@ -260,30 +260,30 @@ public class ThingyConnection extends BluetoothGattCallback {
         add(RequestType.WRITE_CHARACTERISTIC, mTimeCharacteristic, String2Byte(time), BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
     }
 
-    public String getYear() {
+    public Integer getYear() {
         final int year1 = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 0);
         final int year2 = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 1);
-        return year1 + "" + year2;
+        return (year1*100) + year2;
     }
 
-    public String getMonth() {
+    public Integer getMonth() {
         final int month = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 2);
-        return month + "";
+        return month;
     }
 
-    public String getDay() {
+    public Integer getDay() {
         final int day = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 3);
-        return day + "";
+        return day;
     }
 
-    public String getHour() {
+    public Integer getHour() {
         final int hour = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 4);
-        return hour + "";
+        return hour;
     }
 
-    public String getMin() {
+    public Integer getMin() {
         final int min = mTimeCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_SINT8, 5);
-        return min+ "";
+        return min;
     }
 
     public String getTime() {
