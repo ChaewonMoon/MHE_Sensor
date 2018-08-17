@@ -223,6 +223,29 @@ public class ThingyConnection extends BluetoothGattCallback {
         return arr;
     }
 
+    public void setLED(String str) {
+        if(str.length() >= 8) {
+            byte[] arr = new byte[4];
+            arr[0] = Byte.parseByte(str.substring(0, 2));
+            arr[1] = Byte.parseByte(str.substring(2, 4));
+            arr[2] = Byte.parseByte(str.substring(4, 6));
+            arr[3] = Byte.parseByte(str.substring(6, 8));
+            add(RequestType.WRITE_CHARACTERISTIC, mLedCharacteristic, arr, BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
+        }
+        else if(str.length() >= 6) {
+            byte[] arr = new byte[3];
+            arr[0] = Byte.parseByte(str.substring(0, 2));
+            arr[1] = Byte.parseByte(str.substring(2, 4));
+            arr[2] = Byte.parseByte(str.substring(4, 6));
+            add(RequestType.WRITE_CHARACTERISTIC, mLedCharacteristic, arr, BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
+        }
+        else {
+            byte[] arr = new byte[1];
+            arr[0] = Byte.parseByte(str.substring(0, 2));
+            add(RequestType.WRITE_CHARACTERISTIC, mLedCharacteristic, arr, BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
+        }
+    }
+
     public boolean dataCheck() {
         String s = "AA";
         byte[] data = new byte[]{(byte)170, (byte)170};
@@ -494,8 +517,19 @@ public class ThingyConnection extends BluetoothGattCallback {
 
             final Intent intent = new Intent(ThingyUtils.CLASSIFICATION_NOTIFICATION);
             intent.putExtra(ThingyUtils.EXTRA_DEVICE, mBluetoothDevice);
-            intent.putExtra(ThingyUtils.EXTRA_INDICATOR, String.valueOf(mClassificationInt1));
-            intent.putExtra(ThingyUtils.EXTRA_DATA, String.valueOf(mClassificationInt3));
+            if(String.valueOf(mClassificationInt1) != null)
+                intent.putExtra(ThingyUtils.EXTRA_INDICATOR, String.valueOf(mClassificationInt1));
+            else
+                intent.putExtra(ThingyUtils.EXTRA_INDICATOR, String.valueOf(0));
+            if(String.valueOf(mClassificationInt3) != null)
+                intent.putExtra(ThingyUtils.EXTRA_DATA, String.valueOf(mClassificationInt3));
+            else
+                intent.putExtra(ThingyUtils.EXTRA_DATA, String.valueOf(0));
+            if(String.valueOf(mClassificationInt4) != null)
+                intent.putExtra(ThingyUtils.CLASSIFICATION_4, String.valueOf(mClassificationInt4));
+            else
+                intent.putExtra(ThingyUtils.CLASSIFICATION_4, String.valueOf(0));
+
             LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
 
         } else if (characteristic.equals(mFeatureVectorCharacteristic)) {

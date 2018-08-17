@@ -47,6 +47,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import no.nordicsemi.android.nrfthingy.common.ScannerFragmentListener;
@@ -101,6 +102,9 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
     public CheckReceive mCheckReceive = new CheckReceive();
     public CheckConnection mCheckConnection = new CheckConnection();
     public boolean isRun = false;
+
+    //private Button downLoad;
+    private boolean dataCheck = false;
 
     OkHttpClient client;
     MediaType JSON;
@@ -188,7 +192,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
          */
 
         @Override
-        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator) {
+        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator, String cla4) {
 
             String str = null;
             mDetectionTextView.setText("Result: "+status);
@@ -270,7 +274,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
             Log.d("resultvector : ", "result : " + R_0 + "  " + R_1 + "  " + R_2 + " " + R_3 + "  " + R_4 + "  " + R_5 + "  " + R_6 + "  " + R_7
                     + "  " + R_8 + "  " + R_9 + "  " + R_10 + "  " + R_11 + "  " + R_12 + "  " + R_13 + "  " + R_14 + "  " + R_15);
             if (R_1 != null) {
-
+                dataCheck = true;
                 time = new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis()));
                 mResultVectorAdapter.addResult(R_1 + "  " + R_2 + "  " + R_3 + "  " + R_4 + "  " + R_5 + "  " + R_6 + "  " + R_7
                                 + "  " + R_8 + "  " + R_9 + "  " + R_10 + "  " + R_11 + "  " + R_12 + "  " + R_13 + "  " + R_14 + "  " + R_15
@@ -411,6 +415,17 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
 
         // PME result
         result_img = rootView.findViewById(R.id.result_img);
+
+        /*
+        downLoad = (Button) rootView.findViewById(R.id.down_button);
+
+        downLoad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mThingySdkManager.enableResultVectorNotifications(mDevice, true);
+            }
+        });
+        */
 
         if (mDetectionToolbar != null) {
             mDetectionToolbar.setTitle(R.string.result_title);

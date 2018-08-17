@@ -401,7 +401,7 @@ public class FusionFragment extends Fragment {
         }
 
         @Override
-        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator) {
+        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator, String cla4) {
             Log.d("FusionFragment : ", bluetoothDevice.getAddress() + " // " + status);
             if(!status.equals("0")) {
                 if(bluetoothDevice.equals(mBleList.get(0))) {

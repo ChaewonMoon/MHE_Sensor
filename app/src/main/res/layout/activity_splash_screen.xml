@@ -85,7 +85,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="70dp"
         android:scaleType="center"
-        android:src="@drawable/nordic_logo" />
+        android:src="@drawable/mhe_logo1" />
 
     <!--<ImageView
         android:layout_width="wrap_content"

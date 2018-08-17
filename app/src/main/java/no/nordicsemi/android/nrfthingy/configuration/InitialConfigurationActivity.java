@@ -267,7 +267,7 @@ public class InitialConfigurationActivity extends AppCompatActivity implements S
         }
 
         @Override
-        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator){
+        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator, String cla4){
 
         }
 

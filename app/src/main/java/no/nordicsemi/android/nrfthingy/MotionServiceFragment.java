@@ -251,7 +251,7 @@ public class MotionServiceFragment extends Fragment implements ScannerFragmentLi
         }
 
         @Override //MHE//PME fragment에서 Last event detected 에 나타낼때 사용합니다.
-        public void onKnowledgePackValueChangedEvent (BluetoothDevice bluetoothDevice, String status, String indicator)
+        public void onKnowledgePackValueChangedEvent (BluetoothDevice bluetoothDevice, String status, String indicator, String cla4)
         {
 
         }

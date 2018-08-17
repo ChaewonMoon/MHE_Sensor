@@ -177,6 +177,7 @@ public class ThingyUtils {
     public static final String MICROPHONE_NOTITIFCATION                                         = "MICROPHONE_NOTITIFCATION_";
 
     public static final String EXTRA_DATA                                                       = "EXTRA_DATA";
+    public static final String CLASSIFICATION_4                                                 = "CLASSIFICATION_4";
     // MHE // indicate if its motion or sound
     public static final String EXTRA_INDICATOR                                                  = "EXTRA_INDICATOR";
     public static final String EXTRA_DATA_TIME_STAMP                                            = "EXTRA_DATA_TIME_STAMP";

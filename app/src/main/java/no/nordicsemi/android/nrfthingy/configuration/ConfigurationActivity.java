@@ -146,7 +146,7 @@ public class ConfigurationActivity extends AppCompatActivity implements ThingySd
         }
 
         @Override
-        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator){
+        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator, String cla4){
 
         }
 

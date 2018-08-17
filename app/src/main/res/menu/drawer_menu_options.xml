@@ -65,7 +65,7 @@
         <item
             android:id="@+id/navigation_hallabong"
             android:checked="false"
-            android:icon="@drawable/ic_motion"
+            android:icon="@drawable/ic_hallabong"
             android:title="Halla Bong" />
         <item
             android:id="@+id/navigation_sojucup"
@@ -90,14 +90,14 @@
         <item
             android:id="@+id/navigation_fusion"
             android:checked="false"
-            android:icon="@drawable/ic_pme"
+            android:icon="@drawable/ic_fusion"
             android:title="@string/pme_fusion" />
-        <item
+        <!--<item
             android:id="@+id/navigation_keyword"
             android:checked="false"
             android:icon="@drawable/ic_pme"
             android:title="Keyword" />
-        <!--<item
+        <item
             android:id="@+id/navigation_cloud"
             android:checked="false"
             android:icon="@drawable/ic_cloud_upload"

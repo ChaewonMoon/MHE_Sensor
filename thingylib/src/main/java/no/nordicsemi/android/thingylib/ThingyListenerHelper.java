@@ -162,11 +162,12 @@ public class ThingyListenerHelper {
                     Log.d("TLH", "classification notified");
                     final String indicator = intent.getExtras().getString(ThingyUtils.EXTRA_INDICATOR);
                     final String classification = intent.getExtras().getString(ThingyUtils.EXTRA_DATA);
+                    final String cla4 = intent.getExtras().getString(ThingyUtils.CLASSIFICATION_4);
                     if (globalListener != null) {
-                        globalListener.onKnowledgePackValueChangedEvent(device, classification, indicator);
+                        globalListener.onKnowledgePackValueChangedEvent(device, classification, indicator, cla4);
                     }
                     if (thingyListener != null) {
-                        thingyListener.onKnowledgePackValueChangedEvent(device, classification, indicator);
+                        thingyListener.onKnowledgePackValueChangedEvent(device, classification, indicator, cla4);
                     }
                 case ThingyUtils.FEATUREVECTOR_NOTIFICATION:
                     final String vectorLength = intent.getExtras().getString(ThingyUtils.EXTRA_DATA_VECTORLENGTH);

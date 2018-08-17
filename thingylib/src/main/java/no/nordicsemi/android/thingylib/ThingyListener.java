@@ -76,7 +76,7 @@ public interface ThingyListener  {
 
     void onAccelerometerValueChangedEvent(final BluetoothDevice bluetoothDevice, final float accelerometerX, final float accelerometerY, final float accelerometerZ);
     //MHE//petfragment 에서 사용합니다.
-    void onKnowledgePackValueChangedEvent(final BluetoothDevice bluetoothDevice, final String status, final String indicator);
+    void onKnowledgePackValueChangedEvent(final BluetoothDevice bluetoothDevice, final String status, final String indicator, final String cla4);
     //MHE//pmefragment 에서 사용합니다.
     void onFeatureVectorValueChangedEvent(final BluetoothDevice bluetoothDevice, final String len, final String x, final String y, final String z);
     void onResultVectorValueChangedEvent(final BluetoothDevice bluetoothDevice, final String R_0, final String R_1, final String R_2

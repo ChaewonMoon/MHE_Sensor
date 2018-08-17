@@ -3,6 +3,7 @@ package no.nordicsemi.android.nrfthingy;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -48,6 +49,7 @@ public class SojuCupFragment extends Fragment {
     private ThingySdkManager mThingySdkManager = null;
     private DatabaseHelper mDatabaseHelper;
     private Button mRandom;
+    private RandomGame mRandomGame;
 
     MediaType JSON;
 
@@ -86,7 +88,7 @@ public class SojuCupFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_soju_cup, container, false);
 
-        mResultListView = rootView.findViewById(R.id.result_list);
+        mResultListView = rootView.findViewById(R.id.soju_list);
         mResultAdapter = new ListViewAdapter();
         mResultListView.setAdapter(mResultAdapter);
         mRandom = (Button) rootView.findViewById(R.id.random);
@@ -101,8 +103,8 @@ public class SojuCupFragment extends Fragment {
         mRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Random random = new Random();
-                int n = random.nextInt(mBleList.size());
+                mRandomGame = new RandomGame();
+                mRandomGame.execute();
             }
         });
 
@@ -359,7 +361,7 @@ public class SojuCupFragment extends Fragment {
         }
 
         @Override
-        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator) {
+        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator, String cla4) {
             Log.d("SojuCupFragment : ", bluetoothDevice.getAddress() + " // " + status);
             mResultAdapter.changeImg(bluetoothDevice, status);
         }
@@ -419,4 +421,69 @@ public class SojuCupFragment extends Fragment {
 
         }
     };
+
+    class RandomGame extends AsyncTask<Integer, Integer, Integer> {
+        @Override
+        protected Integer doInBackground(Integer... integers) {
+            for(int j = 0; j < mBleList.size(); j++) {
+                mThingySdkManager.setLED(mBleList.get(j), "00");
+            }
+
+            for(int j = 0; j < mBleList.size(); j++) {
+                mThingySdkManager.setLED(mBleList.get(j), "02076300");
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            for(int j = 0; j < mBleList.size(); j++) {
+                mThingySdkManager.setLED(mBleList.get(j), "02026300");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            for(int j = 0; j < mBleList.size(); j++) {
+                mThingySdkManager.setLED(mBleList.get(j), "02036300");
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            for(int j = 0; j < mBleList.size(); j++) {
+                mThingySdkManager.setLED(mBleList.get(j), "02046300");
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for(int j = 0; j < mBleList.size(); j++) {
+                mThingySdkManager.setLED(mBleList.get(j), "02056300");
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for(int j = 0; j < mBleList.size(); j++) {
+                mThingySdkManager.setLED(mBleList.get(j), "02066300");
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Random random = new Random();
+            int n = random.nextInt(mBleList.size());
+            mThingySdkManager.setLED(mBleList.get(n), "030163");
+            return null;
+        }
+    }
 }

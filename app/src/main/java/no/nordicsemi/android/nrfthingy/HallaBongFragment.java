@@ -2,6 +2,7 @@ package no.nordicsemi.android.nrfthingy;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -45,6 +46,7 @@ public class HallaBongFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private ThingySdkManager mThingySdkManager = null;
     private DatabaseHelper mDatabaseHelper;
+    private boolean num = true;
 
     MediaType JSON;
 
@@ -83,7 +85,7 @@ public class HallaBongFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_halla_bong, container, false);
 
-        mResultListView = rootView.findViewById(R.id.result_list);
+        mResultListView = rootView.findViewById(R.id.hallabong_list);
         mResultAdapter = new ListViewAdapter();
         mResultListView.setAdapter(mResultAdapter);
 
@@ -188,9 +190,32 @@ public class HallaBongFragment extends Fragment {
                 mHolderList.get(mBleList.indexOf(device)).mResultImage.setImageResource(R.drawable.pme_phone);
             else if(status.equals("4"))
                 mHolderList.get(mBleList.indexOf(device)).mResultImage.setImageResource(R.drawable.pme_eat);
-            else if(status.equals("5"))
+            else if(status.equals("5")) {
+                num = true;
                 mHolderList.get(mBleList.indexOf(device)).mResultImage.setImageResource(R.drawable.pme_walk);
-
+                MediaPlayer mp = MediaPlayer.create(HallaBongFragment.this.getContext(), R.raw.clap);
+                mp.start();
+            }
+            else if(status.equals("6") && num) {
+                num = false;
+                mHolderList.get(mBleList.indexOf(device)).mResultImage.setImageResource(R.drawable.guitar);
+                MediaPlayer mp = MediaPlayer.create(HallaBongFragment.this.getContext(), R.raw.daehanminkook);
+                mp.start();
+            }
+            /*
+            else if(status.equals("7"))
+                mHolderList.get(mBleList.indexOf(device)).mResultImage.setImageResource(R.drawable.saxophone);
+            else if(status.equals("8")) {
+                mHolderList.get(mBleList.indexOf(device)).mResultImage.setImageResource(R.drawable.flute);
+                MediaPlayer mp = MediaPlayer.create(HallaBongFragment.this.getContext(), R.raw.daehanminkook);
+                mp.start();
+            }
+            else if(status.equals("9")) {
+                mHolderList.get(mBleList.indexOf(device)).mResultImage.setImageResource(R.drawable.flute);
+                MediaPlayer mp = MediaPlayer.create(HallaBongFragment.this.getContext(), R.raw.clap);
+                mp.start();
+            }
+*/
         }
 
         public void remove(BluetoothDevice device) {
@@ -347,7 +372,7 @@ public class HallaBongFragment extends Fragment {
         }
 
         @Override
-        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator) {
+        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator, String cla4) {
             Log.d("ResultFragment : ", bluetoothDevice.getAddress() + " // " + status);
             mResultAdapter.changeImg(bluetoothDevice, status);
         }

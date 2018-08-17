@@ -233,7 +233,7 @@ public class EnvironmentServiceFragment extends Fragment implements ScannerFragm
         }
 
         @Override
-        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator){
+        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator, String cla4){
 
         }
 

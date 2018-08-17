@@ -216,7 +216,7 @@ public class CloudFragment extends Fragment implements IFTTTokenDialogFragment.I
         }
 
         @Override
-        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator){
+        public void onKnowledgePackValueChangedEvent(BluetoothDevice bluetoothDevice, String status, String indicator, String cla4){
 
         }
 

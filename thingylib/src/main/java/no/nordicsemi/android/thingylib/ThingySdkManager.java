@@ -128,6 +128,17 @@ public class ThingySdkManager {
         return false;
     }
 
+    public void setLED(BluetoothDevice device, String str) {
+        if(device != null) {
+            if (mBinder != null) {
+                final ThingyConnection thingyConnection = mBinder.getThingyConnection(device);
+                if(thingyConnection != null) {
+                    thingyConnection.setLED(str);
+                }
+            }
+        }
+    }
+
     public void setDeviceTime(BluetoothDevice device) {
         if(device != null) {
             if (mBinder != null) {

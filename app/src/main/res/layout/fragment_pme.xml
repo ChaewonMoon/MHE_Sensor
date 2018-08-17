@@ -121,7 +121,7 @@
 
 
                             <ImageButton
-                                android:id="@+id/imageButton"
+                                android:id="@+id/down_button"
                                 android:layout_width="3dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
