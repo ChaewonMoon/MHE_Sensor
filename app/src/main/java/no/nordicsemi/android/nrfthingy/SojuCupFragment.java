@@ -2,6 +2,9 @@ package no.nordicsemi.android.nrfthingy;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -50,7 +53,7 @@ public class SojuCupFragment extends Fragment {
     private DatabaseHelper mDatabaseHelper;
     private Button mRandom;
     private RandomGame mRandomGame;
-
+    private String[] ledString = {"02016300", "02026300", "02036300", "02046300", "02056300", "02066300"};
     MediaType JSON;
 
     public SojuCupFragment() {
@@ -428,52 +431,31 @@ public class SojuCupFragment extends Fragment {
             for(int j = 0; j < mBleList.size(); j++) {
                 mThingySdkManager.setLED(mBleList.get(j), "00");
             }
-
-            for(int j = 0; j < mBleList.size(); j++) {
-                mThingySdkManager.setLED(mBleList.get(j), "02076300");
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            MediaPlayer mp = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.spin);
+            for(int i = 100; i < 1000; i *= 2) {
+                for (int k = 2; k < 6; k++) {
+                    for (int j = 0; j < mBleList.size(); j++) {
+                        mThingySdkManager.setLED(mBleList.get(j), ledString[k]);
+                        mp.start();
+                        try {
+                            Thread.sleep(i);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
 
-            for(int j = 0; j < mBleList.size(); j++) {
-                mThingySdkManager.setLED(mBleList.get(j), "02026300");
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            for(int j = 0; j < mBleList.size(); j++) {
-                mThingySdkManager.setLED(mBleList.get(j), "02036300");
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            for(int j = 0; j < mBleList.size(); j++) {
-                mThingySdkManager.setLED(mBleList.get(j), "02046300");
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            for(int j = 0; j < mBleList.size(); j++) {
-                mThingySdkManager.setLED(mBleList.get(j), "02056300");
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             for(int j = 0; j < mBleList.size(); j++) {
                 mThingySdkManager.setLED(mBleList.get(j), "02066300");
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for(int j = 0; j < mBleList.size(); j++) {
+                mThingySdkManager.setLED(mBleList.get(j), "02076300");
             }
             try {
                 Thread.sleep(1000);

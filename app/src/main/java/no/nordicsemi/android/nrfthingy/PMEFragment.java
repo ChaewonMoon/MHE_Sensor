@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -104,7 +105,9 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
     public boolean isRun = false;
 
     //private Button downLoad;
-    private boolean dataCheck = false;
+    private ImageButton downLoad;
+    private boolean dataCheck = true;
+    public CheckData mCheckData;
 
     OkHttpClient client;
     MediaType JSON;
@@ -274,7 +277,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
             Log.d("resultvector : ", "result : " + R_0 + "  " + R_1 + "  " + R_2 + " " + R_3 + "  " + R_4 + "  " + R_5 + "  " + R_6 + "  " + R_7
                     + "  " + R_8 + "  " + R_9 + "  " + R_10 + "  " + R_11 + "  " + R_12 + "  " + R_13 + "  " + R_14 + "  " + R_15);
             if (R_1 != null) {
-                dataCheck = true;
+                dataCheck = false;
                 time = new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis()));
                 mResultVectorAdapter.addResult(R_1 + "  " + R_2 + "  " + R_3 + "  " + R_4 + "  " + R_5 + "  " + R_6 + "  " + R_7
                                 + "  " + R_8 + "  " + R_9 + "  " + R_10 + "  " + R_11 + "  " + R_12 + "  " + R_13 + "  " + R_14 + "  " + R_15
@@ -416,16 +419,18 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
         // PME result
         result_img = rootView.findViewById(R.id.result_img);
 
-        /*
-        downLoad = (Button) rootView.findViewById(R.id.down_button);
+
+        downLoad = (ImageButton) rootView.findViewById(R.id.down_button);
 
         downLoad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mThingySdkManager.enableResultVectorNotifications(mDevice, true);
+                mCheckData = new CheckData();
+                mCheckData.execute();
             }
         });
-        */
+
 
         if (mDetectionToolbar != null) {
             mDetectionToolbar.setTitle(R.string.result_title);
@@ -534,7 +539,6 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
             tempDir.mkdirs();
         Log.d("Saving_Data", "Data save start" + " Log size : " + mResultLog.size());
         time = new SimpleDateFormat("/HH-mm-ss_").format(new Date(System.currentTimeMillis()));
-
         Calendar cal = Calendar.getInstance();
         int year = mThingySdkManager.getDeviceYear(mDevice);
         int month = mThingySdkManager.getDeviceMonth(mDevice);
@@ -812,8 +816,10 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
                         ThingySdkManager mThingySdkManager = ThingySdkManager.getInstance();
                         mThingySdkManager.enableResultVectorNotifications(mDevice, false);
                         saveData();
+                        dataCheck = true;
                         mThingySdkManager.setDeviceTime(mDevice);
                         isRun = false;
+                        mResultLog.clear();
 
                         Log.e("CW","uploadBT");
                         String tempC = new String();
@@ -905,6 +911,21 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.e("CW", "onPostExecute");
+        }
+    }
+
+    class CheckData extends AsyncTask<Integer, Integer, Integer> {
+        @Override
+        protected Integer doInBackground(Integer... integers) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if(dataCheck)
+                mThingySdkManager.enableResultVectorNotifications(mDevice, false);
+            return null;
         }
     }
 }
