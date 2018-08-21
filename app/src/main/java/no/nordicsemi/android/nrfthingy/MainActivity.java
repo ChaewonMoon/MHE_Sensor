@@ -48,20 +48,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 
 import android.Manifest;
 import android.app.Dialog;
@@ -241,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mThingySdkManager.enableResultVectorNotifications(mDevice, true);
         Toast.makeText(getApplicationContext(), "DATA Down Finish", Toast.LENGTH_LONG).show();
 
-
+        /*
         if(mThingySdkManager.dataCheck(mDevice)) {
             mThingySdkManager.enableResultVectorNotifications(mDevice, true);
             Toast.makeText(getApplicationContext(), "DATA Down Finish", Toast.LENGTH_LONG).show();

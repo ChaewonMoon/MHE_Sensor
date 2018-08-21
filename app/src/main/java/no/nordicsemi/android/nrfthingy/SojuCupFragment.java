@@ -8,6 +8,7 @@ import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -52,7 +55,14 @@ public class SojuCupFragment extends Fragment {
     private ThingySdkManager mThingySdkManager = null;
     private DatabaseHelper mDatabaseHelper;
     private Button mRandom;
+    private Button mKing;
+    private Button mKingButton;
     private RandomGame mRandomGame;
+    private KingGame mKingGame;
+    private TextView mServant;
+
+    private boolean setServant = true;
+
     private String[] ledString = {"02016300", "02026300", "02036300", "02046300", "02056300", "02066300"};
     MediaType JSON;
 
@@ -95,7 +105,9 @@ public class SojuCupFragment extends Fragment {
         mResultAdapter = new ListViewAdapter();
         mResultListView.setAdapter(mResultAdapter);
         mRandom = (Button) rootView.findViewById(R.id.random);
-
+        mKing = (Button) rootView.findViewById(R.id.king);
+        mServant = (TextView) rootView.findViewById(R.id.servant_list);
+        mKingButton = (Button) rootView.findViewById(R.id.king_button);
         mDatabaseHelper = new DatabaseHelper(getActivity());
 
         for(int i = 0; i < mBleList.size(); i++) {
@@ -108,6 +120,41 @@ public class SojuCupFragment extends Fragment {
             public void onClick(View v) {
                 mRandomGame = new RandomGame();
                 mRandomGame.execute();
+            }
+        });
+
+        mKing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mKing.setVisibility(View.GONE);
+                mKingButton.setVisibility(View.VISIBLE);
+                mKingGame = new KingGame();
+                mKingGame.execute();
+                String list = "Servant List : ";
+                for(int i = 1; i < mBleList.size(); i++) {
+                    if(i == 1)
+                        list += "Red";
+                    else if(i == 2)
+                        list += ", Green";
+                    else if(i == 3)
+                        list += ", Yellow";
+                    else if(i == 4)
+                        list += "Blue";
+                    else if(i == 5)
+                        list += "Purple";
+                    else if(i == 6)
+                        list += "Cyan";
+                }
+                mServant.setText(list);
+            }
+        });
+
+        mKingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mKing.setVisibility(View.VISIBLE);
+                mKingButton.setVisibility(View.GONE);
+                setServant = false;
             }
         });
 
@@ -431,12 +478,33 @@ public class SojuCupFragment extends Fragment {
             for(int j = 0; j < mBleList.size(); j++) {
                 mThingySdkManager.setLED(mBleList.get(j), "00");
             }
-            MediaPlayer mp = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.spin);
-            for(int i = 100; i < 1000; i *= 2) {
+            MediaPlayer mp = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep1);
+            MediaPlayer mp2 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep1);
+            MediaPlayer mp3 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep2);
+            MediaPlayer mp4 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep3);
+            MediaPlayer intro = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.soju_intro);
+            MediaPlayer end = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.soju_end);
+            mp.setLooping(true);
+            intro.start();
+            for(int i = 0; i < mBleList.size(); i++) {
+                mThingySdkManager.setLED(mBleList.get(i), "03076300");
+            }
+            while(intro.isPlaying()) {
+
+            }
+            for(int i = 200; i <= 600; i += 200) {
+                if(i == 200)
+                    mp.start();
+                if(i == 600)
+                    mp.stop();
                 for (int k = 2; k < 6; k++) {
                     for (int j = 0; j < mBleList.size(); j++) {
+                        if(i >= 600 && k >= 3)
+                            break;
                         mThingySdkManager.setLED(mBleList.get(j), ledString[k]);
-                        mp.start();
+                        if(i >= 600) {
+                            mp2.start();
+                        }
                         try {
                             Thread.sleep(i);
                         } catch (InterruptedException e) {
@@ -448,23 +516,145 @@ public class SojuCupFragment extends Fragment {
 
             for(int j = 0; j < mBleList.size(); j++) {
                 mThingySdkManager.setLED(mBleList.get(j), "02066300");
+                mp3.start();
             }
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             for(int j = 0; j < mBleList.size(); j++) {
                 mThingySdkManager.setLED(mBleList.get(j), "02076300");
+                mp3.start();
             }
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             Random random = new Random();
             int n = random.nextInt(mBleList.size());
-            mThingySdkManager.setLED(mBleList.get(n), "030163");
+            mThingySdkManager.setLED(mBleList.get(n), "03016300");
+            mp4.start();
+            end.start();
+            return null;
+        }
+    }
+
+    class KingGame extends AsyncTask<Integer, Integer, Integer> {
+        @Override
+        protected Integer doInBackground(Integer... integers) {
+            for(int j = 0; j < mBleList.size(); j++) {
+                mThingySdkManager.setLED(mBleList.get(j), "00");
+            }
+            if(mBleList.size() > 7)
+                return null;
+
+            MediaPlayer mp = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep1);
+            MediaPlayer mp2 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep1);
+            MediaPlayer mp3 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep2);
+            MediaPlayer mp4 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep3);
+            MediaPlayer mp5 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.pangpare);
+            MediaPlayer intro = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.soju_intro);
+            MediaPlayer end = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.soju_end);
+            mp.setLooping(true);
+            //intro.start();
+            //while(intro.isPlaying());
+            for(int i = 200; i <= 600; i += 200) {
+                if(i == 200)
+                    mp.start();
+                if(i == 600)
+                    mp.stop();
+                for (int k = 2; k < 6; k++) {
+                    for (int j = 0; j < mBleList.size(); j++) {
+                        if(i >= 600 && k >= 3)
+                            break;
+                        mThingySdkManager.setLED(mBleList.get(j), ledString[k]);
+                        if(i >= 600) {
+                            mp2.start();
+                        }
+                        try {
+                            Thread.sleep(i);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+            for(int j = 0; j < mBleList.size(); j++) {
+                mThingySdkManager.setLED(mBleList.get(j), "02066300");
+                mp3.start();
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for(int j = 0; j < mBleList.size(); j++) {
+                mThingySdkManager.setLED(mBleList.get(j), "02076300");
+                mp3.start();
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Random random = new Random();
+            int n = random.nextInt(mBleList.size());
+            mThingySdkManager.setLED(mBleList.get(n), "03076300");
+            mp5.start();
+            //end.start();
+
+            boolean[] check = {false, false, false, false, false, false, false};
+            check[n] = true;
+
+            while(setServant);
+
+            for(int i = 1; i < mBleList.size(); i++) {
+                if(i == 1) {
+                    while(check[n]) {
+                        n = random.nextInt(mBleList.size());
+                    }
+                    check[n] = true;
+                    mThingySdkManager.setLED(mBleList.get(n), "03016300");
+                }
+                else if(i == 2) {
+                    while(check[n]) {
+                        n = random.nextInt(mBleList.size());
+                    }
+                    check[n] = true;
+                    mThingySdkManager.setLED(mBleList.get(n), "03026300");
+                }
+                else if(i == 3) {
+                    while(check[n]) {
+                        n = random.nextInt(mBleList.size());
+                    }
+                    check[n] = true;
+                    mThingySdkManager.setLED(mBleList.get(n), "03036300");
+                }
+                else if(i == 4) {
+                    while(check[n]) {
+                        n = random.nextInt(mBleList.size());
+                    }
+                    check[n] = true;
+                    mThingySdkManager.setLED(mBleList.get(n), "03046300");
+                }
+                else if(i == 5) {
+                    while(check[n]) {
+                        n = random.nextInt(mBleList.size());
+                    }
+                    check[n] = true;
+                    mThingySdkManager.setLED(mBleList.get(n), "03056300");
+                }
+                else if(i == 6) {
+                    while(check[n]) {
+                        n = random.nextInt(mBleList.size());
+                    }
+                    check[n] = true;
+                    mThingySdkManager.setLED(mBleList.get(n), "03066300");
+                }
+            }
             return null;
         }
     }

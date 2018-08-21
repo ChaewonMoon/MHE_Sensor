@@ -608,7 +608,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
                 obj.put("PME", jArray);
 
                 // post the json object to EC2 server
-                String getResponse = post("http://ec2-13-125-160-227.ap-northeast-2.compute.amazonaws.com/pme/set", obj);
+                String getResponse = post("http://ec2-18-182-7-246.ap-northeast-1.compute.amazonaws.com/pme/set", obj);
                 return getResponse;
             } catch (Exception e) {
                 this.exception = e;
@@ -851,7 +851,7 @@ public class PMEFragment extends Fragment implements ScannerFragmentListener {
 
                         contentValues.put("a", saveBuffer.toString());
 
-                        String url = "http://13.230.57.228:8080/create";
+                        String url = "http://18.182.7.246:8080/create";
 
                         // AsyncTask를 통해 HttpURLConnection 수행.
                         NetworkTask networkTask = new NetworkTask(url,  contentValues);

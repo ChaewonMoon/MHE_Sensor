@@ -46,7 +46,7 @@ public class HallaBongFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private ThingySdkManager mThingySdkManager = null;
     private DatabaseHelper mDatabaseHelper;
-    private boolean num = true;
+    private int num = 0;
 
     MediaType JSON;
 
@@ -180,6 +180,7 @@ public class HallaBongFragment extends Fragment {
 
         public void changeImg(BluetoothDevice device, String status) {
             Log.d("HallaBongFragment : ", String.valueOf(mBleList.indexOf(device)));
+            MediaPlayer mp = MediaPlayer.create(HallaBongFragment.this.getContext(), R.raw.daehanminkook);
             if(status.equals("0"))
                 mHolderList.get(mBleList.indexOf(device)).mResultImage.setImageResource(R.drawable.pme_unknown);
             else if(status.equals("1"))
@@ -191,16 +192,17 @@ public class HallaBongFragment extends Fragment {
             else if(status.equals("4"))
                 mHolderList.get(mBleList.indexOf(device)).mResultImage.setImageResource(R.drawable.pme_eat);
             else if(status.equals("5")) {
-                num = true;
                 mHolderList.get(mBleList.indexOf(device)).mResultImage.setImageResource(R.drawable.pme_walk);
-                MediaPlayer mp = MediaPlayer.create(HallaBongFragment.this.getContext(), R.raw.clap);
-                mp.start();
+                //MediaPlayer mp = MediaPlayer.create(HallaBongFragment.this.getContext(), R.raw.clap);
+                //mp.start();
             }
-            else if(status.equals("6") && num) {
-                num = false;
+            else if(status.equals("6") && !mp.isPlaying()) {
+                num++;
                 mHolderList.get(mBleList.indexOf(device)).mResultImage.setImageResource(R.drawable.guitar);
-                MediaPlayer mp = MediaPlayer.create(HallaBongFragment.this.getContext(), R.raw.daehanminkook);
-                mp.start();
+                if(num > 5) {
+                    mp.start();
+                    num = 0;
+                }
             }
             /*
             else if(status.equals("7"))

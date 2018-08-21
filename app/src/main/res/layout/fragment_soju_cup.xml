@@ -10,7 +10,26 @@
         android:id="@+id/random"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="RANDOM" />
+        android:text="RANDOM GAME" />
+
+    <Button
+        android:id="@+id/king"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="KING GAME" />
+
+    <Button
+        android:id="@+id/king_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SET SERVANT"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/servant_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
 
     <ListView
         android:id="@+id/soju_list"
