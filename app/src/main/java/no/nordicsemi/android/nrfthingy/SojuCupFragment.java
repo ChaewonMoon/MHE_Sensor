@@ -481,7 +481,7 @@ public class SojuCupFragment extends Fragment {
             MediaPlayer mp = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep1);
             MediaPlayer mp2 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep1);
             MediaPlayer mp3 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep2);
-            MediaPlayer mp4 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep3);
+            MediaPlayer mp4 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.pangpare);
             MediaPlayer intro = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.soju_intro);
             MediaPlayer end = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.soju_end);
             mp.setLooping(true);
@@ -553,10 +553,7 @@ public class SojuCupFragment extends Fragment {
             MediaPlayer mp = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep1);
             MediaPlayer mp2 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep1);
             MediaPlayer mp3 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep2);
-            MediaPlayer mp4 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.beep3);
-            MediaPlayer mp5 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.pangpare);
-            MediaPlayer intro = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.soju_intro);
-            MediaPlayer end = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.soju_end);
+            MediaPlayer mp5 = MediaPlayer.create(SojuCupFragment.this.getContext(), R.raw.kingsang);
             mp.setLooping(true);
             //intro.start();
             //while(intro.isPlaying());
